@@ -1,17 +1,6 @@
 <template>
-  <Home></Home>
+  <router-view />
 </template>
-
-<script>
-import Home from "./components/Main/Home.vue";
-
-export default {
-  name: "App",
-  components: {
-    Home,
-  },
-};
-</script>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,400&family=Shippori+Antique+B1&display=swap");

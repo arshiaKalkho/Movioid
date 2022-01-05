@@ -1,7 +1,9 @@
 <template lang="">
-  <div></div>
+  <div>edit movie</div>
 </template>
 <script>
-export default {};
+export default {
+  name: "EditMovie",
+};
 </script>
 <style lang=""></style>
