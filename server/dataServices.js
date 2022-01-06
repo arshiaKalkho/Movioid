@@ -44,6 +44,8 @@ let userSchema = new mongoose.Schema({
 })
 
 module.exports = function(connectionString){
+    let users;//db instances are saved here after initialization
+    let movies;//so other functions can access them like RegisterUser...
     return{
         
         initialize: function(){//stablish connection to db
