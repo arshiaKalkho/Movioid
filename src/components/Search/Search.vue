@@ -9,7 +9,6 @@
         <span class="register-inner-text">Register</span>
       </button>
     </div>
-    <div></div>
   </div>
 </template>
 
