@@ -14,10 +14,10 @@ let movieSchema = new mongoose.Schema({
         required: true
     },
     scenes:[{
-      scene:String  
+        scene:String  
     }],
     rating:  {
-        rating: Number,
+        type: Number,
         required: true
     },
     comments:[{
@@ -25,6 +25,8 @@ let movieSchema = new mongoose.Schema({
         comment:String,
         likes:Number
     }]
+    ,
+    Data:Date
 })
 let userSchema = new mongoose.Schema({
     usrename:{
@@ -40,7 +42,12 @@ let userSchema = new mongoose.Schema({
         type:String,
         required:true,
         unique:true
-    }
+    },
+    authority:{
+        type:String,
+        required:true
+    },
+    Date:Date
 })
 
 module.exports = function(connectionString){
@@ -57,7 +64,7 @@ module.exports = function(connectionString){
                 });
                 db1.once('open', ()=>{
                     users = db1.model("users", userSchema);//compiling a db instance into users
-                    movies = db1.model("users", movieSchema);//compiling a db instance into movies
+                    movies = db1.model("movies", movieSchema);//compiling a db instance into movies
 
                     resolve();
                 });
@@ -93,12 +100,21 @@ module.exports = function(connectionString){
 
         createMovie: function(movie){
             return new Promise((resolve,reject)=>{
-                movies.find().sort({_id:-1}).limit(10).then(topMovieList =>{
-                    resolve(topMovieList)
-                }).catch(err=>{
-                    reject(err);
+    
+                let newMovie = new movies(movie);
+                newMovie.Date = Date.now();
+                
+                newMovie.save((err) => {
+                    if(err) {
+                        reject(err , "error occurred while saving new movie")
+                    } else {
+                        resolve(`new Movie: ${newMovie._id} successfully added`);
+                    }
                 })
-            })
+                
+                
+                
+            });
         },
         getLatestMovies: function(){
             return new Promise((resolve,reject)=>{
