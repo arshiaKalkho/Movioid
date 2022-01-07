@@ -13,5 +13,6 @@ module.exports = {
                 target: "http://localhost:3000"
             }
         }
+
     }
 }

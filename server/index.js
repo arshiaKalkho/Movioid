@@ -43,7 +43,10 @@ if (process.env.NODE_ENV === 'production') {
     app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
     //whatever route express receives it sends vue's index html file leting the vue router handle everything
 }else{
-    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+    app.use(express.static(__dirname + '/public/'));
+    app.get(/.*/, (req, res) =>{ res.sendFile(__dirname + '/public/index.html')
+    
+});
 
 }
 
