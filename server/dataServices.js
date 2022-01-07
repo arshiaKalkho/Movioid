@@ -1,15 +1,26 @@
 const mongoose = require('mongoose');
 let movieSchema = new mongoose.Schema({
-    genres:[
-        {
-            genre:String
-        }
-    ],
+    genres:{
+        type: String,
+        enum : [
+            'Action',
+            'Comedy',
+            'Drama',
+            'Fantasy',
+            'Horror',
+            'Mystery',
+            'Romance',
+            'Thriller',
+            'Western'
+        ],
+        required:true
+    }
+    ,
     title:  {
         type: String,
         required: true
     },
-    author:  {
+    author:  {//user
         type: String,
         required: true
     },
@@ -26,6 +37,10 @@ let movieSchema = new mongoose.Schema({
         likes:Number
     }]
     ,
+    duration:{
+        type:Number,
+        required:true
+    },
     Data:Date
 })
 let userSchema = new mongoose.Schema({

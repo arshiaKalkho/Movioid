@@ -13,8 +13,18 @@
 </template>
 
 <script>
+
 export default {
   name: "Search",
+  Data(){
+    return{
+      latestMovies:[],
+      searchQuery: '',
+      error: ''
+    }
+  }
+  
+
 };
 </script>
 
@@ -26,6 +36,8 @@ export default {
 .search-box {
   text-align: center;
   width: 40vw;
+  
+  min-width: 10rem;
 }
 .search-buttons {
   margin-top: 1rem;

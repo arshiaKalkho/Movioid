@@ -5,12 +5,20 @@
 </template>
 
 <script>
+import DataServices from "../../dataServices"
+
 import Search from "../Search/Search.vue";
 export default {
   name: "Home",
   components: {
     Search,
-  },
+  },async created(){
+    try{
+      this.latestMovies = await DataServices.getLatestMovies();
+    }catch(err){
+      this.error = err;
+    }
+  }
 };
 </script>
 

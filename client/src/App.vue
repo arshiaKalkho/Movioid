@@ -160,18 +160,22 @@
     </div>
 
     <router-link class="nav-links" to="/">Home</router-link>
-    <router-link class="nav-links" to="/add">Add Movie</router-link>
-    <router-link class="nav-links" to="/edit">Edit Movie</router-link>
+    <router-link class="nav-links" to="/addMovie">Add Movie</router-link>
+    <router-link class="nav-links" to="/editMovie">Edit Movie</router-link>
   </div>
   <router-view />
+  <div class="footer">
+    footer stuff here
+  </div>
+  
 </template>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,400&family=Shippori+Antique+B1&display=swap");
 :root {
-  --color-primary: #f4f6f7;
+  --color-primary: #2e4053;
   --color-text: #ed8e53;
-  --color-accent: #76d7c4;
+  --color-accent: #F2F3F4;
   --color-HeaderFooter: #2e4053;
 }
 #app {
@@ -182,6 +186,13 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--color-primary);
+}
+.secondary-text{
+  color:var(--color-accent)
+}
+.primary-text{
+  color:var(--color-text)
+
 }
 .logo {
   height: 1.5rem;
@@ -198,6 +209,7 @@ body {
   height: 2.5rem;
   gap: 1rem;
   padding-right: 0.5rem;
+  margin-bottom: 1rem;
 }
 .nav-links {
   background-color: var(--color-HeaderFooter);
@@ -208,7 +220,14 @@ body {
   transition: 100ms ease-in-out;
 }
 .nav-links:hover {
-  background-color: var(--color-primary);
+  background-color: var(--color-accent);
   transition: 200ms ease-in-out;
+}
+.footer{
+  bottom: 0;
+  margin-top: 2rem;
+  width: 100%;
+  height:10vh;
+  background-color: var(--color-HeaderFooter);
 }
 </style>
