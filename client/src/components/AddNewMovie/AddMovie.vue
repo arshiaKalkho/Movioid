@@ -12,14 +12,14 @@
         <h3 class="primary-text">Info</h3>
         
         <label for="input-title">Title: </label>
-        <input id="input-title" v-model="title">
+        <input id="input-title" class="input" v-model="title">
         
         <label for="input-title">Movie Duration: (minutes) </label>
-        <input id="input-title" min="0" type="number" v-model="duration">
+        <input id="input-title" class="input" min="0" type="number" v-model="duration">
         
 
         <label for="input-genre">Genre: </label>
-        <select id="input-genre" v-model="selected">
+        <select id="input-genre" class="input" v-model="selected">
           <option v-bind:value="{ genre: 'Action' }">Action</option>
           <option v-bind:value="{ genre: 'Comedy' }">Comedy</option>
           <option v-bind:value="{ genre: 'Drama' }">Drama</option>
@@ -32,10 +32,12 @@
         </select>
         
 
-      
+        <div class="scene-list">
+        
+          <SceneVisualizer
+          :sceneList="scenes" />
+        </div>
 
-        <SceneVisualizer
-        :sceneList="scenes" />
       </div>
       
       <div class="addMovie-form-right">
@@ -43,15 +45,15 @@
         <h3 class="primary-text">Scenes</h3>
         
         <label for="input-startTime">Scene start time </label>
-        <input id="input-startTime" min="0" type="number" v-model="duration">
+        <input id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
         
         <label for="input-endTime">Scene end time </label>
-        <input id="input-endTime" min="0" type="number" v-model="duration">
+        <input id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
         
         
 
         <label for="input-intensity">Scene type</label>
-        <select id="input-intensity" v-model="selected">
+        <select id="input-intensity" class="input" v-model="tempType">
           <option v-bind:value="{ genre: 1 }">1 (awkward moments)</option>
           <option v-bind:value="{ genre: 2 }">2 (kisses)</option>
           <option v-bind:value="{ genre: 3 }">3 (french kisses)</option>
@@ -80,6 +82,9 @@ export default {
       title: "",
       scenes:["arshia"],
       duration:"",
+      tempStartTime:0,
+      tempEndTime:0,
+      tempType:0,
       err: ''
     }
   }
@@ -131,6 +136,21 @@ export default {
   border: 1px outset var(--color-text);
   transition: 200ms ease-in-out;
   margin-bottom: 10rem;
+}
+.scene-list{
+  width:fill;
+  height:fill;
+  background:red;
+}
+
+.input{
+  caret-color:var(--color-text);
+  color:var(--color-text);
+  background-color:var(--color-primary);
+}
+.input:focus{
+  outline:none;
+  outline-color:var(--color-text);
 }
 .addMovie-form:hover{
   opacity: 0.9;

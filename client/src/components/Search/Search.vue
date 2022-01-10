@@ -41,12 +41,13 @@ export default {
   border-radius:3px;
   caret-color:var(--color-text);
   color:var(--color-text);
-  background-color:var(--color-primary)
+  background-color:var(--color-primary);
 }
 .search-box:focus{
   outline:none;
   outline-color:var(--color-text);
 }
+
 
 .search-buttons {
   margin-top: 1rem;
