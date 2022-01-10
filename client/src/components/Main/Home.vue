@@ -12,7 +12,8 @@ export default {
   name: "Home",
   components: {
     Search,
-  },async created(){
+  },
+  async created(){
     try{
       this.latestMovies = await DataServices.getLatestMovies();
     }catch(err){

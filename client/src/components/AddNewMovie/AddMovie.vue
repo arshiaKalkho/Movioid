@@ -15,7 +15,7 @@
         <input id="input-title" v-model="title">
         
         <label for="input-title">Movie Duration: (minutes) </label>
-        <input id="input-title" type="number" v-model="duration">
+        <input id="input-title" min="0" type="number" v-model="duration">
         
 
         <label for="input-genre">Genre: </label>
@@ -31,6 +31,11 @@
           <option v-bind:value="{ genre: 'Western'}">Western</option>
         </select>
         
+
+      
+
+        <SceneVisualizer
+        :sceneList="scenes" />
       </div>
       
       <div class="addMovie-form-right">
@@ -38,14 +43,14 @@
         <h3 class="primary-text">Scenes</h3>
         
         <label for="input-startTime">Scene start time </label>
-        <input id="input-startTime" type="number" v-model="duration">
+        <input id="input-startTime" min="0" type="number" v-model="duration">
         
         <label for="input-endTime">Scene end time </label>
-        <input id="input-endTime" type="number" v-model="duration">
+        <input id="input-endTime" min="0" type="number" v-model="duration">
         
         
 
-        <label for="input-intensity">Scene intensity</label>
+        <label for="input-intensity">Scene type</label>
         <select id="input-intensity" v-model="selected">
           <option v-bind:value="{ genre: 1 }">1 (awkward moments)</option>
           <option v-bind:value="{ genre: 2 }">2 (kisses)</option>
@@ -62,16 +67,19 @@
   </div>
 </template>
 <script>
+import SceneVisualizer from './SceneVisualizer.vue'
+
 export default {
   name: "AddMovie",
+  component:{
+    SceneVisualizer
+  },
   Data(){
     return{
-      movie:{
-        genre:"",
-        title: "",
-        scenes:[],
-        duration:"",
-      },
+      genre:"",
+      title: "",
+      scenes:["arshia"],
+      duration:"",
       err: ''
     }
   }
@@ -98,7 +106,7 @@ export default {
     flex-direction: column;
     gap:1rem;
   }
- .addMovie-container{
+.addMovie-container{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,41 +117,46 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   margin-top: 0;
- 
- }
- .addMovie-form{
-   display:flex;
+}
+.addMovie-form{
+  display:flex;
   justify-content: space-evenly;
   align-items: flex-start;
-   padding:5px;
-   width:85%;
-   height:fit-content;
-   background-color: var(--color-primary);
-   opacity: 0.7;
-   border-radius: 5px;
-   border: 1px outset var(--color-text);
-   transition: 200ms ease-in-out;
-   margin-bottom: 10rem;
- 
- }
- .addMovie-form:hover{
-   opacity: 0.9;
-   transition: 200ms ease-in-out;
- }
- .delete-scence
-  ,.add-scence{
-    border: none;
-    border-radius: 5px;
-   }
- 
- .delete-scence{
-   background-color: red;
- }
- 
- .add-scence{
-   height: 2rem;
+  padding:5px;
+  width:85%;
+  height:fit-content;
+  background-color: var(--color-primary);
+  opacity: 0.7;
+  border-radius: 5px;
+  border: 1px outset var(--color-text);
+  transition: 200ms ease-in-out;
+  margin-bottom: 10rem;
+}
+.addMovie-form:hover{
+  opacity: 0.9;
+  transition: 200ms ease-in-out;
+}
+.delete-scence,
+.add-scence{
+  border: none;
+  border-radius: 5px;
+}
+.delete-scence:hover,
+.add-scence:hover{
+  color:white;
+}
+.delete-scence:active,
+.add-scence:active{
+  color:var(--color-primary);
+}
+.delete-scence{
+  background-color: red;
+}
+
+.add-scence{
+  height: 1.5rem;
   background-color: rgb(17, 200, 17);
- }
+}
 @media only screen and (max-width: 500px) {
   .addMovie-form{
     flex-direction: column;

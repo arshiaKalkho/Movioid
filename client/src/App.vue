@@ -209,7 +209,7 @@ body {
   height: 2.5rem;
   gap: 1rem;
   padding-right: 0.5rem;
-  margin-bottom: 1rem;
+  
 }
 .nav-links {
   background-color: var(--color-HeaderFooter);
