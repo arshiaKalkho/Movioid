@@ -30,23 +30,33 @@ export default {
 
 <style>
 .search-box-container {
-  padding-bottom: 3rem;
-  padding-left: 5rem;
+  padding-bottom: 5rem;
+  padding-left: 8rem;
 }
 .search-box {
   text-align: center;
+  font-size:1.5rem;
   width: 40vw;
-  
-  min-width: 10rem;
+  border:none;
+  border-radius:3px;
+  caret-color:var(--color-text);
+  color:var(--color-text);
+  background-color:var(--color-primary)
 }
+.search-box:focus{
+  outline:none;
+  outline-color:var(--color-text);
+}
+
 .search-buttons {
   margin-top: 1rem;
+  margin-bottom:0;
 }
 .button {
   color: var(--color-text);
   border: none;
   border-radius: 3px;
-  height: 1.5rem;
+  height: 2rem;
   background: var(--color-HeaderFooter);
   border: 1px solid grey;
 }
@@ -54,12 +64,15 @@ export default {
   border: 1px solid var(--color-text);
 }
 .search-button {
+  
+  font-size:1.5rem;
   margin-left: 0.5rem;
-  width: 5rem;
+  width: 6rem;
 }
 .LoginRegister-button {
   color: white;
   transition: 200ms ease-in-out;
+  font-size:1.1rem;
 }
 .LoginRegister-button:hover {
   border-image: linear-gradient(
@@ -89,6 +102,22 @@ export default {
 }
 .LoginRegister-button:active,
 .search-button:active {
-  background: var(--color-primary);
+  background: var(--color-accent);
+}
+@media only screen and (max-width: 500px) {
+  
+  .search-box-container{
+    padding:0;
+  }
+  .search-box{
+    height:1.5rem;
+    font-size:1rem;
+    width:60vw;
+    margin-bottom:0.5rem;
+  }
+  .LoginRegister-button,
+  .search-button {
+    height:2rem;
+  }
 }
 </style>

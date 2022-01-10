@@ -173,16 +173,22 @@
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,400&family=Shippori+Antique+B1&display=swap");
 :root {
+  
   --color-primary: #2e4053;
   --color-text: #ed8e53;
   --color-accent: #F2F3F4;
   --color-HeaderFooter: #2e4053;
+}
+*{
+  margin: 0;
+  padding: 0;
 }
 #app {
   font-family: "Roboto", sans-serif;
   color: var(--color-text);
 }
 body {
+  font-size:1.2rem;
   margin: 0;
   padding: 0;
   background-color: var(--color-primary);
@@ -211,6 +217,13 @@ body {
   padding-right: 0.5rem;
   
 }
+@media only screen and (max-width: 500px) {
+  .header{
+    font-size:1rem;
+    gap:0.2rem;
+  }
+}
+
 .nav-links {
   background-color: var(--color-HeaderFooter);
   padding: 0.4rem;
