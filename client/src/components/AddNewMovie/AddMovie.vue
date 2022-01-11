@@ -32,11 +32,10 @@
         </select>
         
 
-        <div class="scene-list">
         
-          <SceneVisualizer
-          :sceneList="scenes" />
-        </div>
+        
+          
+        
 
       </div>
       
@@ -62,10 +61,10 @@
         </select>
         <button class="add-scence"> Add Scene</button>
         <button class="delete-scence"> Delete Last Scene</button>
-        
-
       </div>
     </div>
+    <SceneVisualizer
+          :sceneList="scenes" />
   </div>
 </template>
 <script>
@@ -73,14 +72,37 @@ import SceneVisualizer from './SceneVisualizer.vue'
 
 export default {
   name: "AddMovie",
-  component:{
+  components:{
     SceneVisualizer
   },
-  Data(){
+  data(){
     return{
       genre:"",
       title: "",
-      scenes:["arshia"],
+      scenes:[{
+        name:"movie0",
+        ranks:3
+      },
+      {
+        name:"movie1",
+        ranks:3
+      },
+      {
+        name:"movie1",
+        ranks:3
+      },
+      {
+        name:"movie1",
+        ranks:3
+      },
+      {
+        name:"movie1",
+        ranks:3
+      },
+      {
+        name:"movie2",
+        ranks:3
+      }],
       duration:"",
       tempStartTime:0,
       tempEndTime:0,
@@ -97,9 +119,9 @@ export default {
   height: fit-content;
   text-align: center;
   background-color: var(--color-primary);
-  padding:2px;
+  padding:2px 0;
   border: 1px outset var(--color-text);
-   border-radius: 5px;
+  border-radius: 5px;
   }
   .addMovie-form-left{
     display:flex;
@@ -127,7 +149,7 @@ export default {
   display:flex;
   justify-content: space-evenly;
   align-items: flex-start;
-  padding:5px;
+  padding: 5px 0;
   width:85%;
   height:fit-content;
   background-color: var(--color-primary);
@@ -135,7 +157,7 @@ export default {
   border-radius: 5px;
   border: 1px outset var(--color-text);
   transition: 200ms ease-in-out;
-  margin-bottom: 10rem;
+  margin-bottom: 1rem;
 }
 .scene-list{
   width:fill;
@@ -144,6 +166,7 @@ export default {
 }
 
 .input{
+  border-radius: 3px;
   caret-color:var(--color-text);
   color:var(--color-text);
   background-color:var(--color-primary);
