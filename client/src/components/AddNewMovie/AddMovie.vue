@@ -6,20 +6,21 @@
       <h3>Add New Movie</h3>
       <p class="secondary-text">the main part of this form is the events, each event need to have a score which is explained below and must have a time stamp within the movie duration time.<br>All Movies will be manually reviewed before uploading so please NO SPOILERS...</p>
     </div>
-  
+    
     <div class="addMovie-form">
+      
       <div class="addMovie-form-left">
         <h3 class="primary-text">Info</h3>
         
         <label for="input-title">Title: </label>
-        <input id="input-title" class="input" v-model="title">
+        <input :disabled="disableMovieInputs" id="input-title" class="input" v-model="title">
         
         <label for="input-title">Movie Duration: (minutes) </label>
-        <input id="input-title" class="input" min="0" type="number" v-model="duration">
+        <input :disabled="disableMovieInputs" id="input-title" class="input" min="0" type="number" v-model="duration">
         
 
         <label for="input-genre">Genre: </label>
-        <select id="input-genre" class="input drop-down" v-model="selected">
+        <select :disabled="disableMovieInputs" id="input-genre" class="input drop-down" v-model="genre">
           <option v-bind:value="{ genre: 'Action' }">Action</option>
           <option v-bind:value="{ genre: 'Comedy' }">Comedy</option>
           <option v-bind:value="{ genre: 'Drama' }">Drama</option>
@@ -31,8 +32,11 @@
           <option v-bind:value="{ genre: 'Western'}">Western</option>
         </select>
         
-
+          <span class="error">{{movieErr}}</span>
+          <button v-on:click="confirmMovieInfo" class="add-scence" :disabled="disableMovieInputs">Confirm Movie Info</button>
         
+          <button v-on:click = "reset" class="delete-scence"> Start Over Completely</button>
+
         
           
         
@@ -41,25 +45,27 @@
       
       <div class="addMovie-form-right">
         <div class="scenes-left">
-          <h3 class="primary-text">Scenes</h3>
-          
+          <h3 class="primary-text">Add Scenes</h3>
+          <div class="movie-info-warn" v-if="disableSceneInputs">Please confirm movie info</div>
           <label for="input-startTime">Scene start time </label>
-          <input id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
+          <input :disabled="disableSceneInputs" id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
           
           <label for="input-endTime">Scene end time </label>
-          <input id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
+          <input :disabled="disableSceneInputs" id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
           
           
 
           <label for="input-intensity">Scene type</label>
-          <select id="input-intensity drop-down" class="input" v-model="tempType">
-            <option v-bind:value="{ genre: 'awkward moments' }">1 (awkward moments)</option>
-            <option v-bind:value="{ genre: 'kisses' }">2 (kisses)</option>
-            <option v-bind:value="{ genre: 'nudity' }">5 (nudity)</option>
+          <select :disabled="disableSceneInputs" id="input-intensity drop-down" class="input" v-model="tempType">
+            <option v-bind:value="{ genre: 'awkward' }">awkward</option>
+            <option v-bind:value="{ genre: 'kiss' }">kiss</option>
+            <option v-bind:value="{ genre: 'nudity' }">nudity</option>
           </select>
-          <button class="add-scence"> Add Scene</button>
-          <button class="delete-scence"> Delete Last Scene</button>
+          <span class="error">{{sceneErr}}</span>
+          <button :disabled="disableSceneInputs" v-on:click="addScene" class="add-scence"> Add Scene</button>
+          <button :disabled="disableSceneInputs" class="delete-scence"> Delete Last Scene</button>
         </div>
+        
         <SceneVisualizer :sceneList="scenes" />
       
       </div>
@@ -76,88 +82,81 @@ export default {
   },
   data(){
     return{
+      disableMovieInputs:false,
+      disableSceneInputs:true,
       genre:"",
       title: "",
-      scenes:[{
-        type:"nudity",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      },
-      {
-        type:"kisses",
-        startTime:0,
-        endTime:1
-      }],
-      duration:"",
+      scenes:[],
+      duration:0,
       tempStartTime:0,
       tempEndTime:0,
-      tempType:0,
-      err: ''
+      tempType:"",
+      sceneErr: "",
+      movieErr: ""
+    }
+  },
+  methods:{
+    addScene(){
+      if(this.tempStartTime === 0 || this.tempEndTime === 0 || this.tempType === ""){
+        this.sceneErr= "Please Make sure all the start time, end time and scence types are filled"
+      }else if(this.tempStartTime > this.tempEndTime){
+        this.sceneErr ="Start time cannot come after end time"
+      }else if(this.tempStartTime > this.duration){
+        this.sceneErr ="Start or end time cannot be afte movie ends"
+      }else{
+      const temp = {
+          startTime:this.tempStartTime,
+          endTime:this.tempEndTime,
+          type:this.tempType.genre,
+          index:this.scenes.length+1
+        }
+        const isScenceValid = this.checkSceneOverlap(temp)
+        if(isScenceValid){
+          this.sceneErr = "Scene time conflict with scene number: "+isScenceValid.index;
+        }else{
+          this.sceneErr="";
+          this.scenes.push(temp);
+        }
+      }
+      console.log("scnens: ", this.scenes," err: ", this.sceneErr, "str: ",this.tempStartTime, " end: ",this.tempEndTime, "type:", this.tempType.genre)
+    },
+    confirmMovieInfo(){
+      if(this.title === ""){
+        this.movieErr = "Please enter a title"
+      }else if(this.duration <= 0){
+        this.movieErr = "Duration cannot be 0"
+      }else if(this.genre === ""){
+        this.movieErr = "Please choose a genre"
+      }
+      else{
+        this.disableMovieInputs=true;
+        this.disableSceneInputs=false;
+        this.movieErr = "";
+      }
+      
+    },
+    checkSceneOverlap(sceneObj){//returns null or the conflicting obj
+      return this.scenes.find(element => {
+        if((sceneObj.startTime > element.startTime &&
+        sceneObj.startTime < element.endTime)||
+        (sceneObj.endTime > element.startTime &&
+        sceneObj.startTime < element.endTime)){
+          console.log("first")
+          return element;
+        }
+      });
+      
+    },
+    reset(){
+      this.disableMovieInputs=false;
+      this.genre="";
+      this.title="";
+      this.scenes = [];
+      this.duration = 0;
+      this.tempStartTime = 0;
+      this.tempEndTime = 0;
+      this.tempType = "";
+      this.sceneErr = "";
     }
   }
 };
@@ -188,6 +187,17 @@ export default {
     flex-direction: row;
     gap:1rem;
   }
+  
+   .movie-info-warn{
+     opacity:0;
+    transition: 100ms ease-in-out;
+   }
+  .addMovie-form-right:hover .movie-info-warn{
+    transition: 100ms ease-in-out;
+    opacity:1;
+    color: red;
+  }
+
 .addMovie-container{
   display: flex;
   flex-direction: column;
@@ -219,6 +229,10 @@ export default {
   width:fill;
   height:fill;
   background:red;
+}
+.error{
+  color: red;
+  font-size: 0.6rem;
 }
 
 .input{

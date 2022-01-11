@@ -4,7 +4,7 @@
             <li class="scene-list-element" v-for="(scene,index) in sceneList" :key="index">
                 <div class="element-header">
                     <span class="place-holder-text">scene no:</span>
-                    {{index}}<br/>
+                    {{scene.index}}<br/>
                     <span class="place-holder-text">from:</span> {{scene.startTime}}
                     <span class="place-holder-text">to:</span> {{scene.endTime}}
                 </div>
