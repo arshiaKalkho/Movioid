@@ -7,77 +7,85 @@
       <p class="secondary-text">the main part of this form is the events, each event need to have a score which is explained below and must have a time stamp within the movie duration time.<br>All Movies will be manually reviewed before uploading so please NO SPOILERS...</p>
     </div>
     
-    <div class="addMovie-form">
+    
+    <div class="add-movie-container">
+
+    
       
-      <div class="addMovie-form-left">
-        <h3 class="primary-text">Info</h3>
+      <div class="addMovie-form">
         
-        <label for="input-title">Title: </label>
-        <input :disabled="disableMovieInputs" id="input-title" class="input" v-model="title">
-        
-        <label for="input-title">Movie Duration: (minutes) </label>
-        <input :disabled="disableMovieInputs" id="input-title" class="input" min="0" type="number" v-model="duration">
-        
-
-        <label for="input-genre">Genre: </label>
-        <select :disabled="disableMovieInputs" id="input-genre" class="input drop-down" v-model="genre">
-          <option v-bind:value="{ genre: 'Action' }">Action</option>
-          <option v-bind:value="{ genre: 'Comedy' }">Comedy</option>
-          <option v-bind:value="{ genre: 'Drama' }">Drama</option>
-          <option v-bind:value="{ genre: 'Fantasy' }">Fantasy</option>
-          <option v-bind:value="{ genre: 'Horror' }">Horror</option>
-          <option v-bind:value="{ genre: 'Mystery' }">Mystery</option>
-          <option v-bind:value="{ genre: 'Romance' }">Romance</option>
-          <option v-bind:value="{ genre: 'Thriller' }">Thriller</option>
-          <option v-bind:value="{ genre: 'Western'}">Western</option>
-        </select>
-        
-          <span class="error">{{movieErr}}</span>
-          <button v-on:click="confirmMovieInfo" class="add-scence" :disabled="disableMovieInputs">Confirm Movie Info</button>
-        
-          <button v-on:click = "reset" class="delete-scence"> Start Over Completely</button>
-
-        
+        <div class="addMovie-form-left">
+          <h3 class="primary-text">Info</h3>
           
-        
-
-      </div>
-      
-      <div class="addMovie-form-right">
-        <div class="scenes-left">
-          <h3 class="primary-text">Add Scenes</h3>
-          <div class="movie-info-warn" v-if="disableSceneInputs">Please confirm movie info</div>
-          <label for="input-startTime">Scene start time </label>
-          <input :disabled="disableSceneInputs" id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
+          <label for="input-title">Title: </label>
+          <input :disabled="disableMovieInputs" id="input-title" class="input" v-model="title">
           
-          <label for="input-endTime">Scene end time </label>
-          <input :disabled="disableSceneInputs" id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
-          
+          <label for="input-title">Movie Duration: (minutes) </label>
+          <input :disabled="disableMovieInputs" id="input-title" class="input" min="0" type="number" v-model="duration">
           
 
-          <label for="input-intensity">Scene type</label>
-          <select :disabled="disableSceneInputs" id="input-intensity drop-down" class="input" v-model="tempType">
-            <option v-bind:value="{ genre: 'awkward' }">awkward</option>
-            <option v-bind:value="{ genre: 'kiss' }">kiss</option>
-            <option v-bind:value="{ genre: 'nudity' }">nudity</option>
+          <label for="input-genre">Genre: </label>
+          <select :disabled="disableMovieInputs" id="input-genre" class="input drop-down" v-model="genre">
+            <option v-bind:value="{ genre: 'Action' }">Action</option>
+            <option v-bind:value="{ genre: 'Comedy' }">Comedy</option>
+            <option v-bind:value="{ genre: 'Drama' }">Drama</option>
+            <option v-bind:value="{ genre: 'Fantasy' }">Fantasy</option>
+            <option v-bind:value="{ genre: 'Horror' }">Horror</option>
+            <option v-bind:value="{ genre: 'Mystery' }">Mystery</option>
+            <option v-bind:value="{ genre: 'Romance' }">Romance</option>
+            <option v-bind:value="{ genre: 'Thriller' }">Thriller</option>
+            <option v-bind:value="{ genre: 'Western'}">Western</option>
           </select>
-          <span class="error">{{sceneErr}}</span>
           
-          <button :disabled="disableSceneInputs" v-on:click="addScene" class="add-scence"> Add Scene</button>
+            <span class="error">{{movieErr}}</span>
+            <button v-on:click="confirmMovieInfo" class="add-scence" :disabled="disableMovieInputs">Confirm Movie Info</button>
           
-          <button :disabled="disableSceneInputs" v-on:click="sortScenesByStartTime" class="sort-scence">Sort Scences</button>
+            <button v-on:click = "reset" class="delete-scence"> Start Over Completely</button>
+
           
+            
           
+
         </div>
         
-        <SceneVisualizer :sendIndexToParent="deleteSelectedScene" :sceneList="scenes" />
-      
+        <div class="addMovie-form-right">
+          <div class="scenes-left">
+            <h3 class="primary-text">Add Scenes</h3>
+            <div class="movie-info-warn" v-if="disableSceneInputs">Please confirm movie info</div>
+            <label for="input-startTime">Scene start time </label>
+            <input :disabled="disableSceneInputs" id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
+            
+            <label for="input-endTime">Scene end time </label>
+            <input :disabled="disableSceneInputs" id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
+            
+            
+
+            <label for="input-intensity">Scene type</label>
+            <select :disabled="disableSceneInputs" id="input-intensity drop-down" class="input" v-model="tempType">
+              <option v-bind:value="{ genre: 'awkward' }">awkward</option>
+              <option v-bind:value="{ genre: 'kiss' }">kiss</option>
+              <option v-bind:value="{ genre: 'nudity' }">nudity</option>
+            </select>
+            <span class="error">{{sceneErr}}</span>
+            
+            <button :disabled="disableSceneInputs" v-on:click="addScene" class="add-scence"> Add Scene</button>
+            
+            <button :disabled="disableSceneInputs" v-on:click="sortScenesByStartTime" class="sort-scence">Sort Scences</button>
+            
+            <button :disabled="disableSceneInputs" v-on:click="submitMovie" class="add-scence"> Submit Movie</button>
+            
+          </div>
+          
+          <SceneVisualizer :sendIndexToParent="deleteSelectedScene" :sceneList="scenes" />
+        
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import SceneVisualizer from './SceneVisualizer.vue'
+
 
 export default {
   name: "AddMovie",
@@ -159,9 +167,7 @@ export default {
     }
     ,
     deleteSelectedScene(index){
-      console.log(index)
       const tempindex = this.scenes.findIndex(indx => indx.index === index+1)
-      console.log(tempindex)
       if(tempindex>=0)
         this.scenes.splice(tempindex,1)
     }
@@ -179,6 +185,9 @@ export default {
       this.tempType = "";
       this.sceneErr = "";
     }
+    ,submitMovie(){
+      //send axios requirest to backend with current data
+    }
   }
 };
 </script>
@@ -193,6 +202,14 @@ export default {
   border: 1px outset var(--color-text);
   border-radius: 5px;
   }
+  .add-movie-container{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    
+  }  
   .addMovie-form-left{
     display:flex;
     flex-direction: column;
@@ -208,7 +225,7 @@ export default {
     flex-direction: row;
     gap:1rem;
   }
-  
+
   .movie-info-warn{
     margin:-1rem 0;
     opacity:0;
