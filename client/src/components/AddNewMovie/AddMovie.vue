@@ -62,11 +62,15 @@
             <option v-bind:value="{ genre: 'nudity' }">nudity</option>
           </select>
           <span class="error">{{sceneErr}}</span>
+          
           <button :disabled="disableSceneInputs" v-on:click="addScene" class="add-scence"> Add Scene</button>
-          <button :disabled="disableSceneInputs" class="delete-scence"> Delete Last Scene</button>
+          
+          <button :disabled="disableSceneInputs" v-on:click="sortScenesByStartTime" class="sort-scence">Sort Scences</button>
+          
+          
         </div>
         
-        <SceneVisualizer :sceneList="scenes" />
+        <SceneVisualizer :sendIndexToParent="deleteSelectedScene" :sceneList="scenes" />
       
       </div>
     </div>
@@ -84,6 +88,7 @@ export default {
     return{
       disableMovieInputs:false,
       disableSceneInputs:true,
+      sceneToDelete:null,
       genre:"",
       title: "",
       scenes:[],
@@ -102,7 +107,7 @@ export default {
       }else if(this.tempStartTime > this.tempEndTime){
         this.sceneErr ="Start time cannot come after end time"
       }else if(this.tempStartTime > this.duration){
-        this.sceneErr ="Start or end time cannot be afte movie ends"
+        this.sceneErr ="Start or end time cannot be after movie ends"
       }else{
       const temp = {
           startTime:this.tempStartTime,
@@ -118,7 +123,7 @@ export default {
           this.scenes.push(temp);
         }
       }
-      console.log("scnens: ", this.scenes," err: ", this.sceneErr, "str: ",this.tempStartTime, " end: ",this.tempEndTime, "type:", this.tempType.genre)
+      
     },
     confirmMovieInfo(){
       if(this.title === ""){
@@ -141,14 +146,30 @@ export default {
         sceneObj.startTime < element.endTime)||
         (sceneObj.endTime > element.startTime &&
         sceneObj.startTime < element.endTime)){
-          console.log("first")
+          return element;
+        }
+        if(sceneObj.startTime === element.startTime && sceneObj.endTime === element.endTime){
           return element;
         }
       });
       
     },
+    sortScenesByStartTime(){
+      this.scenes.sort((a,b)=>{return a.startTime-b.startTime})
+    }
+    ,
+    deleteSelectedScene(index){
+      console.log(index)
+      const tempindex = this.scenes.findIndex(indx => indx.index === index+1)
+      console.log(tempindex)
+      if(tempindex>=0)
+        this.scenes.splice(tempindex,1)
+    }
+    ,
     reset(){
       this.disableMovieInputs=false;
+      this.disableSceneInputs=true
+      this.sceneToDelete=null
       this.genre="";
       this.title="";
       this.scenes = [];
@@ -188,12 +209,13 @@ export default {
     gap:1rem;
   }
   
-   .movie-info-warn{
-     opacity:0;
-    transition: 100ms ease-in-out;
-   }
+  .movie-info-warn{
+    margin:-1rem 0;
+    opacity:0;
+    
+  }
   .addMovie-form-right:hover .movie-info-warn{
-    transition: 100ms ease-in-out;
+    
     opacity:1;
     color: red;
   }
@@ -245,18 +267,24 @@ export default {
   outline:none;
   outline-color:var(--color-text);
 }
+.sort-scence,
 .delete-scence,
 .add-scence{
   border: none;
   border-radius: 5px;
 }
+.sort-scence:hover,
 .delete-scence:hover,
 .add-scence:hover{
   color:white;
 }
+.sort-scence:active,
 .delete-scence:active,
 .add-scence:active{
   color:var(--color-primary);
+}
+.sort-scence{
+  background-color: grey;
 }
 .delete-scence{
   background-color: red;
@@ -273,7 +301,8 @@ export default {
     gap: 1rem;
   }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
+  
   .scenes-left{
     width: 35vw;
   }

@@ -7,11 +7,13 @@
                     {{scene.index}}<br/>
                     <span class="place-holder-text">from:</span> {{scene.startTime}}
                     <span class="place-holder-text">to:</span> {{scene.endTime}}
+                    
                 </div>
                 
                 <div class="element-body">
                 <span class="place-holder-text">Type:</span> {{scene.type}}
                 </div>
+                <button v-on:click="sendIndexToParentToDelete(scene.index)" class="delete-button">delete</button>
             </li>
         </ul>
     </div>
@@ -20,7 +22,18 @@
 export default {
     name:"ScneceVisualizer",
     props:{
-        sceneList:Array
+        sceneList:Array,
+        sendIndexToParent:{type: Function}
+    },
+    data(){
+        return{
+            indexToBeDeleted:null
+        }
+    },
+    methods:{
+        sendIndexToParentToDelete(index){
+            this.sendIndexToParent(index-1)
+        }
     }
     
 }
@@ -35,7 +48,7 @@ export default {
         border:1px solid var(--color-text);
         border-radius: 3px;
         padding: 3px;
-        height:5rem;
+        height:6rem;
         width:fit-content;
 
     }
@@ -56,6 +69,17 @@ export default {
         background:red;
         
     }
+    .delete-button{
+        color:red;
+        background-color:var(--color-primary);
+        border:none;
+        border-radius: 3px;
+        padding:0 1px;
+    }
+    .delete-button:hover{
+        background: red;
+        color:var(--color-accent)
+    }
     
     .element-body{
         margin-bottom: 5px;
@@ -63,6 +87,7 @@ export default {
     }
     .place-holder-text{
         color: var(--color-text);
+        
     }
     
 </style>
