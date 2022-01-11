@@ -19,7 +19,7 @@
         
 
         <label for="input-genre">Genre: </label>
-        <select id="input-genre" class="input" v-model="selected">
+        <select id="input-genre" class="input drop-down" v-model="selected">
           <option v-bind:value="{ genre: 'Action' }">Action</option>
           <option v-bind:value="{ genre: 'Comedy' }">Comedy</option>
           <option v-bind:value="{ genre: 'Drama' }">Drama</option>
@@ -40,31 +40,30 @@
       </div>
       
       <div class="addMovie-form-right">
-        
-        <h3 class="primary-text">Scenes</h3>
-        
-        <label for="input-startTime">Scene start time </label>
-        <input id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
-        
-        <label for="input-endTime">Scene end time </label>
-        <input id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
-        
-        
+        <div class="scenes-left">
+          <h3 class="primary-text">Scenes</h3>
+          
+          <label for="input-startTime">Scene start time </label>
+          <input id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
+          
+          <label for="input-endTime">Scene end time </label>
+          <input id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
+          
+          
 
-        <label for="input-intensity">Scene type</label>
-        <select id="input-intensity" class="input" v-model="tempType">
-          <option v-bind:value="{ genre: 1 }">1 (awkward moments)</option>
-          <option v-bind:value="{ genre: 2 }">2 (kisses)</option>
-          <option v-bind:value="{ genre: 3 }">3 (french kisses)</option>
-          <option v-bind:value="{ genre: 4 }">4 (making out no nudity)</option>
-          <option v-bind:value="{ genre: 5 }">5 (nudity)</option>
-        </select>
-        <button class="add-scence"> Add Scene</button>
-        <button class="delete-scence"> Delete Last Scene</button>
+          <label for="input-intensity">Scene type</label>
+          <select id="input-intensity drop-down" class="input" v-model="tempType">
+            <option v-bind:value="{ genre: 'awkward moments' }">1 (awkward moments)</option>
+            <option v-bind:value="{ genre: 'kisses' }">2 (kisses)</option>
+            <option v-bind:value="{ genre: 'nudity' }">5 (nudity)</option>
+          </select>
+          <button class="add-scence"> Add Scene</button>
+          <button class="delete-scence"> Delete Last Scene</button>
+        </div>
+        <SceneVisualizer :sceneList="scenes" />
+      
       </div>
     </div>
-    <SceneVisualizer
-          :sceneList="scenes" />
   </div>
 </template>
 <script>
@@ -80,28 +79,79 @@ export default {
       genre:"",
       title: "",
       scenes:[{
-        name:"movie0",
-        ranks:3
+        type:"nudity",
+        startTime:0,
+        endTime:1
       },
       {
-        name:"movie1",
-        ranks:3
+        type:"kisses",
+        startTime:0,
+        endTime:1
       },
       {
-        name:"movie1",
-        ranks:3
+        type:"kisses",
+        startTime:0,
+        endTime:1
       },
       {
-        name:"movie1",
-        ranks:3
+        type:"kisses",
+        startTime:0,
+        endTime:1
       },
       {
-        name:"movie1",
-        ranks:3
+        type:"kisses",
+        startTime:0,
+        endTime:1
       },
       {
-        name:"movie2",
-        ranks:3
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
+      },
+      {
+        type:"kisses",
+        startTime:0,
+        endTime:1
       }],
       duration:"",
       tempStartTime:0,
@@ -128,9 +178,14 @@ export default {
     flex-direction: column;
     gap:1rem;
   }
-  .addMovie-form-right{
+  .scenes-left{
     display:flex;
     flex-direction: column;
+    gap:1rem;
+  }
+  .addMovie-form-right{
+    display:flex;
+    flex-direction: row;
     gap:1rem;
   }
 .addMovie-container{
@@ -149,11 +204,12 @@ export default {
   display:flex;
   justify-content: space-evenly;
   align-items: flex-start;
-  padding: 5px 0;
+  padding: 1rem 0;
   width:85%;
   height:fit-content;
+  min-height: 70vh;
   background-color: var(--color-primary);
-  opacity: 0.7;
+ 
   border-radius: 5px;
   border: 1px outset var(--color-text);
   transition: 200ms ease-in-out;
@@ -174,10 +230,6 @@ export default {
 .input:focus{
   outline:none;
   outline-color:var(--color-text);
-}
-.addMovie-form:hover{
-  opacity: 0.9;
-  transition: 200ms ease-in-out;
 }
 .delete-scence,
 .add-scence{
@@ -200,10 +252,19 @@ export default {
   height: 1.5rem;
   background-color: rgb(17, 200, 17);
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 700px) {
   .addMovie-form{
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .scenes-left{
+    width: 35vw;
+  }
+  .addMovie-form-right{
+    gap: 0.5rem;
   }
 }
 

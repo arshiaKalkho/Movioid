@@ -193,6 +193,17 @@ body {
   padding: 0;
   background-color: var(--color-primary);
 }
+::-webkit-scrollbar {
+  width: 0.3em;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px var(--color-text);
+  border-radius: 100vw;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-text);
+  border-radius: 100vw;
+}
 .secondary-text{
   color:var(--color-accent)
 }
@@ -241,6 +252,7 @@ body {
   margin-top: 2rem;
   width: 100%;
   height:10vh;
+  
   background-color: var(--color-HeaderFooter);
 }
 </style>
