@@ -26,6 +26,25 @@ app.get('/api/latest', async (req,res)=>{//for now no error checking
     
     res.json(latestMovies)
 })
+app.get('/api/movie', async (req,res)=>{
+    const res = await dataServices.getMovieBytitle(req.body.title)
+    
+})
+app.post('/api/movie', async (req,res)=>{//for now no error checking
+    const temp = {
+        genre: req.body.movie.genre ,
+        title: req.body.movie.title ,
+        author: "root" ,
+        scenes: req.body.movie.scenes ,
+        rating: 5 ,
+        comments: [] ,
+        duration: req.body.movie.duration
+    }
+    dataServices.createMovie(temp)
+    .then(result=>res.send(result).status(201))
+    .catch(err=>res.send(err).status(500))
+    
+})
 
 
 

@@ -1,15 +1,17 @@
 //this file has method to get data from backend
 //using axios
 
+//import { response } from 'express';
+
 const axios = require('axios');
-const moviesUrl = "api/movies"
+const baseUrl = "api/"
 //const usersUrl = "api/users"
 
 
 export default class ClientSideDataServices{
     static getLatestMovies(){
         return new Promise((resolve,reject)=>{
-                axios.get(moviesUrl).then(
+                axios.get(baseUrl+"/latest").then(
                     resMovies=>{
                         resolve(
                             resMovies.data.map(movie=>({
@@ -23,7 +25,9 @@ export default class ClientSideDataServices{
     }
     static getMovieByTitle(title){
         return new Promise((resolve,reject)=>{
-                axios.get(moviesUrl+`/${title}`).then(resMovies=>{
+                axios.get(baseUrl+"movie",{
+                    title:title
+                }).then(resMovies=>{
                     resolve(
                         resMovies.data.map(movie=>({
                             ...movie,
@@ -32,6 +36,17 @@ export default class ClientSideDataServices{
                 }).catch(err=>{
                     reject(err)
                 })
+        })
+    }
+    static addNewMovie(movie){
+        return new Promise((resolve,reject)=>{
+            axios.post(baseUrl+"movie",{
+                movie:movie
+            }).then(response=>
+                resolve(response)
+            ).catch((err)=>{
+                reject(err)
+            })
         })
     }
 }

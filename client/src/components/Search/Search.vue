@@ -3,11 +3,13 @@
     <input class="search-box" placeholder="Search for movies and tv shows" />
     <button class="search-button button">Search</button>
     <div class="search-buttons">
-      <button class="LoginRegister-button button">
-        <span class="login-inner-text">Login</span>
-        /
-        <span class="register-inner-text">Register</span>
-      </button>
+      <router-link to="/login">
+        <button class="LoginRegister-button button">
+          <span class="login-inner-text">Login</span>
+          /
+          <span class="register-inner-text">Register</span>
+        </button>
+      </router-link>
     </div>
   </div>
 </template>

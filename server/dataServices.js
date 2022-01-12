@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 let movieSchema = new mongoose.Schema({
-    genres:{
+    genre:{
         type: String,
         enum : [
             'Action',
@@ -140,16 +140,17 @@ module.exports = function(connectionString){
                 })
             })
         },
-        getMovieByName: function(movieName){//return movies their name contains "movieName"
-            
+        getMovieBytitle: function(title){
             return new Promise((resolve,reject)=>{
-                movies.find({"title":{$regex: movieName}}).sort({_id:-1}).then(MovieList =>{
+                movies.find({"title":{$regex: title}}).sort({_id:-1}).then(MovieList =>{
                     resolve(MovieList)
                 }).catch(err=>{
                     reject(err);
                 })
             })
         }
+        
+        
 
 
 

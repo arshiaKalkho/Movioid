@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import Home from '../components/Main/Home.vue'
 import AddMovie from '../components/AddNewMovie/AddMovie'
 import EditMovie from '../components/EditMovie/EditMovie'
+import LoginRegister from '../components/LoginRegister/LoginRegister'
 
 
 
@@ -20,6 +21,11 @@ const routes = [
     path: '/editMovie',
     name: 'EditMovie',
     component: EditMovie
+  },
+  {
+    path: '/login',
+    name: 'LoginRegister',
+    component: LoginRegister
   }
 ]
 

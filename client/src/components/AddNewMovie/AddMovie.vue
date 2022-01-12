@@ -26,15 +26,15 @@
 
           <label for="input-genre">Genre: </label>
           <select :disabled="disableMovieInputs" id="input-genre" class="input drop-down" v-model="genre">
-            <option v-bind:value="{ genre: 'Action' }">Action</option>
-            <option v-bind:value="{ genre: 'Comedy' }">Comedy</option>
-            <option v-bind:value="{ genre: 'Drama' }">Drama</option>
-            <option v-bind:value="{ genre: 'Fantasy' }">Fantasy</option>
-            <option v-bind:value="{ genre: 'Horror' }">Horror</option>
-            <option v-bind:value="{ genre: 'Mystery' }">Mystery</option>
-            <option v-bind:value="{ genre: 'Romance' }">Romance</option>
-            <option v-bind:value="{ genre: 'Thriller' }">Thriller</option>
-            <option v-bind:value="{ genre: 'Western'}">Western</option>
+            <option v-bind:genre="'Action' ">Action</option>
+            <option v-bind:genre="'Comedy' ">Comedy</option>
+            <option v-bind:genre="'Drama' ">Drama</option>
+            <option v-bind:genre="'Fantasy' ">Fantasy</option>
+            <option v-bind:genre="'Horror' ">Horror</option>
+            <option v-bind:genre="'Mystery' ">Mystery</option>
+            <option v-bind:genre="'Romance' ">Romance</option>
+            <option v-bind:genre="'Thriller' ">Thriller</option>
+            <option v-bind:genre="'Western'">Western</option>
           </select>
           
             <span class="error">{{movieErr}}</span>
@@ -61,7 +61,7 @@
             
 
             <label for="input-intensity">Scene type</label>
-            <select :disabled="disableSceneInputs" id="input-intensity drop-down" class="input" v-model="tempType">
+            <select :disabled="disableSceneInputs" id="input-intensity" class="input drop-down" v-model="tempType">
               <option v-bind:value="{ genre: 'awkward' }">awkward</option>
               <option v-bind:value="{ genre: 'kiss' }">kiss</option>
               <option v-bind:value="{ genre: 'nudity' }">nudity</option>
@@ -85,7 +85,7 @@
 </template>
 <script>
 import SceneVisualizer from './SceneVisualizer.vue'
-
+import DataServices from '../../dataServices'
 
 export default {
   name: "AddMovie",
@@ -185,8 +185,14 @@ export default {
       this.tempType = "";
       this.sceneErr = "";
     }
-    ,submitMovie(){
-      //send axios requirest to backend with current data
+    ,async submitMovie(){
+      const res = await DataServices.addNewMovie({
+        title:this.title,
+        genre:this.genre,
+        duration:this.duration,
+        scenes:this.scenes
+      })
+        console.log(res)
     }
   }
 };
