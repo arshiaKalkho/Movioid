@@ -1,7 +1,4 @@
-//this file has method to get data from backend
-//using axios
 
-//import { response } from 'express';
 
 const axios = require('axios');
 const baseUrl = "api/"
@@ -47,6 +44,29 @@ export default class ClientSideDataServices{
             ).catch((err)=>{
                 reject(err)
             })
+        })
+    }
+    static loginUser(user){
+        return new Promise((resolve,reject)=>{
+            axios.get(baseUrl+"login", {
+                user:user
+            }).then(response=>{
+                resolve(response.jwt)
+            }).catch(err=>{
+                reject(err)
+            })  
+        })
+    }
+    static registerUser(user){
+        return new Promise((resolve,reject)=>{
+            axios.post(baseUrl+"register", {
+                user:user
+            }).then(response=>{
+                resolve(response)
+            }).catch(err=>{
+                reject(err)
+            })  
+            
         })
     }
 }

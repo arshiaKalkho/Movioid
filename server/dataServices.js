@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+
+
 let movieSchema = new mongoose.Schema({
     genre:{
         type: String,
@@ -60,7 +62,8 @@ let userSchema = new mongoose.Schema({
     },
     authority:{
         type:String,
-        required:true
+        required:true,
+        default:"user"
     },
     Date:Date
 })
@@ -85,7 +88,7 @@ module.exports = function(connectionString){
                 });
             });
         },
-        RegisterUser: function(data){//register new user
+        registerUser: function(data){//register new user
             return new Promise((resolve,reject)=>{
     
                 let newUser = new users(data);
@@ -103,9 +106,9 @@ module.exports = function(connectionString){
                 
             });
         },
-        getUserByEmail: function(Cemail){//for login
+        getuserByUsername: function(_username){//for login
             return new Promise((resolve,reject)=>{
-                users.findOne({email: Cemail}).exec().then(user=>{
+                users.findOne({username: _username}).exec().then(user=>{
                     resolve(user)
                 }).catch(err=>{
                     reject(err);

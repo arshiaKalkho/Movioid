@@ -5,6 +5,7 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const cors = require("cors");
 const dataServicesF = require("./dataServices")
+const bcrypt = require('bcrypt')
 const dbConnectionString = process.env.CONNECTION_STRING;
 const dataServices = dataServicesF(dbConnectionString);
 app = express();
@@ -26,9 +27,38 @@ app.get('/api/latest', async (req,res)=>{//for now no error checking
     
     res.json(latestMovies)
 })
-app.get('/api/movie', async (req,res)=>{
-    const res = await dataServices.getMovieBytitle(req.body.title)
+app.post('/api/register', async (req,res)=>{
     
+    const hashedPassword = await bcrypt.hash(req.body.user.password, 10)
+    var tempOBJ = req.body.user;
+    tempOBJ.password = hashedPassword;
+    dataServices.registerUser(tempOBJ).then((ok)=>{
+        res.send(ok).status(201)
+    }).catch((err)=>{
+        res.send(err).status(500)
+    })
+})
+app.get('/api/login',async (req,res)=>{
+    const password = req.body.user.password;
+    const DBhashedPass = await dataServices.getuserByUsername(req.body.user.username)
+    bcrypt.compare(password, DBhashedPass,(err,result)=>{
+        if(err){
+            res.send(500)
+        }else if(result){
+            res.send(200)//send jwt token
+        }else{
+            res.send(400)
+        }
+    })
+})
+app.get('/api/movie', async (req,res)=>{
+    dataServices.getMovieBytitle(req.body.title).then((data)=>{
+        res.send(data).status(200)
+    }).catch(err=>{
+        res.send(err).status(500)
+    })
+
+
 })
 app.post('/api/movie', async (req,res)=>{//for now no error checking
     const temp = {
