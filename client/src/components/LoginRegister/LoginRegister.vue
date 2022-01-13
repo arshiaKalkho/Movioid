@@ -36,7 +36,7 @@ export default {
     },
     methods:{
         login(){
-            DataServices.loginUser
+            DataServices.loginUser()
         },
         register(){
 

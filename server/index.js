@@ -66,13 +66,13 @@ app.post('/api/movie', async (req,res)=>{//for now no error checking
         title: req.body.movie.title ,
         author: "root" ,
         scenes: req.body.movie.scenes ,
-        rating: 5 ,
+        rating: req.body.movie.rating ,
         comments: [] ,
         duration: req.body.movie.duration
     }
     dataServices.createMovie(temp)
-    .then(result=>res.send(result).status(201))
-    .catch(err=>res.send(err).status(500))
+    .then(result=>res.sendStatus(201))
+    .catch(err=>res.sendStatus(409))
     
 })
 

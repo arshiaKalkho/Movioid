@@ -103,9 +103,11 @@ export default {
       duration:0,
       tempStartTime:0,
       tempEndTime:0,
+      rating: 0,
       tempType:"",
       sceneErr: "",
-      movieErr: ""
+      movieErr: "",
+      successMassage:""
     }
   },
   methods:{
@@ -182,17 +184,39 @@ export default {
       this.duration = 0;
       this.tempStartTime = 0;
       this.tempEndTime = 0;
+      this.rating = 0;
       this.tempType = "";
       this.sceneErr = "";
     }
     ,async submitMovie(){
-      const res = await DataServices.addNewMovie({
+      this.calculateRating();
+      DataServices.addNewMovie({
         title:this.title,
         genre:this.genre,
         duration:this.duration,
-        scenes:this.scenes
+        scenes:this.scenes,
+        rating:this.rating
+      }).then(res=>{
+        if(res.status === 201){
+          this.reset()
+        }
+      }).catch(()=>{
+        this.sceneErr="A movie exists with the same title"
       })
-        console.log(res)
+      
+    },
+    calculateRating(){
+      this.rating=0;
+      this.scenes.forEach(element => {
+        if(element.type === "awkward"){
+          this.rating+=1;
+        }else if(element.type === "kiss"){
+          this.rating+=3;
+        }else{
+          this.rating+=5;
+        }
+      });
+      this.rating = this.rating/this.scenes.length;
     }
   }
 };

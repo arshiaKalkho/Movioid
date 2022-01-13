@@ -20,7 +20,8 @@ let movieSchema = new mongoose.Schema({
     ,
     title:  {
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     author:  {//user
         type: String,
@@ -124,7 +125,7 @@ module.exports = function(connectionString){
                 
                 newMovie.save((err) => {
                     if(err) {
-                        reject(err , "error occurred while saving new movie")
+                        reject(err)
                     } else {
                         resolve(`new Movie: ${newMovie._id} successfully added`);
                     }
