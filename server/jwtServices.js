@@ -37,7 +37,6 @@ module.exports = function(DBconnection){
         validateAccessToken: function(_token){
             return new Promise((resolve,reject)=>{
                 jwt.verify(_token, process.env.JWT_ACCESS_TOKEN_SECRET,(err, user)=>{
-                    console.log("err value: ",err, "user Value: ",user )
                     if(err){
                         reject(err)
                     }else{
