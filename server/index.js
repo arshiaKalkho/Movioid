@@ -40,6 +40,12 @@ app.post('/api/register', async (req,res)=>{
     })
 })
 app.get('/api/login',async (req,res)=>{
+
+
+
+
+
+
     const password = req.body.user.password;
     const DBhashedPass = await dataServices.getuserByUsername(req.body.user.username)
     bcrypt.compare(password, DBhashedPass,(err,result)=>{
@@ -61,7 +67,8 @@ app.get('/api/movie', async (req,res)=>{
 
 
 })
-app.post('/api/movie', async (req,res)=>{//for now no error checking
+app.post('/api/movie',checkJwtAuthHeader, async (req,res)=>{//for now no error checking
+    try{
     const temp = {
         genre: req.body.movie.genre ,
         title: req.body.movie.title ,
@@ -74,7 +81,9 @@ app.post('/api/movie', async (req,res)=>{//for now no error checking
     dataServices.createMovie(temp)
     .then(result=>res.sendStatus(201))
     .catch(err=>res.sendStatus(409))
-    
+    }catch(err){
+        res.sendStatus(422)
+    }
 })
 
 
@@ -108,3 +117,29 @@ dataServices.initialize().then(()=>{//start the server
     })    
 }).catch((err)=>
 {console.log("database is out of service",err)});
+
+
+
+
+
+
+
+async function checkJwtAuthHeader(req,res,next){
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1] ;
+    
+    
+    if(!token){
+        //console.log("no token provided")
+        return res.sendStatus(401)
+    }
+    
+    jwtServices.validateAccessToken(token).then(user=>{
+        req.user = user;
+        next();
+    }).catch(err=>{
+        return res.sendStatus(401)
+    })
+    
+    
+}

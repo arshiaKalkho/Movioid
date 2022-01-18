@@ -13,7 +13,7 @@ module.exports = function(DBconnection){
                         jwt.verify(token[0], process.env.JWT_REFRESH_TOKEN_SECRET,
                             (err,user)=>{
                             if(err){
-                                reject(403)
+                                reject("refresh token expired")
                             }else if(user){
                                 const token = jwt.sign(user, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
                                 resolve(token);
@@ -21,11 +21,11 @@ module.exports = function(DBconnection){
                             
                         })
                     }else{
-                        reject(403)
+                        reject("token doesn't exist")
                     }
                 })
                 .catch(err=>{
-                    reject(500)
+                    reject("err connecting to database: for refresh token")
                 })
             })
         },
@@ -36,15 +36,16 @@ module.exports = function(DBconnection){
         },
         validateAccessToken: function(_token){
             return new Promise((resolve,reject)=>{
-                jwt.verify(_token, process.env.JWT_ACCESS_TOKEN_SECRET,(user, err)=>{
+                jwt.verify(_token, process.env.JWT_ACCESS_TOKEN_SECRET,(err, user)=>{
+                    console.log("err value: ",err, "user Value: ",user )
                     if(err){
-                        reject(401)
-                    }else if(user){
-
+                        reject(err)
+                    }else{
+                    resolve(user)
                     }
                 })
             })
         },
         
-    }
+    } 
 }
