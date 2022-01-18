@@ -1,14 +1,20 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }//adding environment variables
+const dbConnectionString = process.env.CONNECTION_STRING;
+
 const express = require("express");
+app = express();
+
 const bodyparser = require("body-parser");
 const cors = require("cors");
-const dataServicesF = require("./dataServices")
 const bcrypt = require('bcrypt')
-const dbConnectionString = process.env.CONNECTION_STRING;
+
+const dataServicesF = require("./dataServices");
+const jwtServicesF = require('./jwtServices');
 const dataServices = dataServicesF(dbConnectionString);
-app = express();
+const jwtServices = jwtServicesF(dataServices);
+
 
 //middlewears
 app.use(bodyparser.json())//parse json request body by default
@@ -16,11 +22,6 @@ app.use(cors())//prevent Cross Origin Resource Sharing errs
 
 
 
-
-
-//api routes
-
-//first for movie actions
 
 app.get('/api/latest', async (req,res)=>{//for now no error checking
     const latestMovies = await dataServices.getLatestMovies();

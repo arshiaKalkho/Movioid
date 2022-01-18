@@ -156,6 +156,7 @@ export default {
         sceneObj.startTime < element.endTime)||
         (sceneObj.endTime > element.startTime &&
         sceneObj.startTime < element.endTime)){
+
           return element;
         }
         if(sceneObj.startTime === element.startTime && sceneObj.endTime === element.endTime){
@@ -216,6 +217,7 @@ export default {
           this.rating+=5;
         }
       });
+      
       this.rating = this.rating/this.scenes.length;
     }
   }

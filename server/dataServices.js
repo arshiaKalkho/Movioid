@@ -68,10 +68,17 @@ let userSchema = new mongoose.Schema({
     },
     Date:Date
 })
+let refreshToken = new mongoose.Schema({
+    token:{
+        type:String,
+        required:true
+    },
+})
 
 module.exports = function(connectionString){
     let users;//db instances are saved here after initialization
     let movies;//so other functions can access them like RegisterUser...
+    let refreshTokens;
     return{
         
         initialize: function(){//stablish connection to db
@@ -84,7 +91,7 @@ module.exports = function(connectionString){
                 db1.once('open', ()=>{
                     users = db1.model("users", userSchema);//compiling a db instance into users
                     movies = db1.model("movies", movieSchema);//compiling a db instance into movies
-
+                    refreshTokens = db1.model("refreshTokens", refreshToken)
                     resolve();
                 });
             });
@@ -148,6 +155,15 @@ module.exports = function(connectionString){
             return new Promise((resolve,reject)=>{
                 movies.find({"title":{$regex: title}}).sort({_id:-1}).then(MovieList =>{
                     resolve(MovieList)
+                }).catch(err=>{
+                    reject(err);
+                })
+            })
+        },
+        getRefreshToken(_token){
+            return new Promise((resolve,reject)=>{
+                refreshTokens.find({"token":_token}).then(token =>{
+                    resolve(token)
                 }).catch(err=>{
                     reject(err);
                 })
