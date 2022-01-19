@@ -158,7 +158,9 @@ module.exports = function(connectionString){
         },
         getRefreshToken(_token){
             return new Promise((resolve,reject)=>{
-                refreshTokens.find({"token":_token}).then(token =>{
+                refreshTokens.findOne({"token":_token}).then(token =>{
+                    
+                
                     resolve(token)
                 }).catch(err=>{
                     reject(err);
@@ -168,9 +170,10 @@ module.exports = function(connectionString){
         
         saveRefreshToken: function(_token){
         return new Promise((resolve,reject)=>{
-            let newToken = new refreshTokens(_token);
+            
+            let newToken = new refreshTokens({"token":_token});
             newToken.Date = Date.now();
-                
+            
             newToken.save((err) => {
                     if(err) {
                         reject(err)
