@@ -47,7 +47,7 @@ let movieSchema = new mongoose.Schema({
     Data:Date
 })
 let userSchema = new mongoose.Schema({
-    usrename:{
+    username:{
         type:String,
         required:true,
         unique:true
@@ -63,7 +63,6 @@ let userSchema = new mongoose.Schema({
     },
     authority:{
         type:String,
-        required:true,
         default:"user"
     },
     Date:Date
@@ -73,6 +72,7 @@ let refreshToken = new mongoose.Schema({
         type:String,
         required:true
     },
+    Date:Date
 })
 
 module.exports = function(connectionString){
@@ -125,10 +125,9 @@ module.exports = function(connectionString){
         },
 
         createMovie: function(movie){
-            return new Promise((resolve,reject)=>{
-    
-                let newMovie = new movies(movie);
-                newMovie.Date = Date.now();
+        return new Promise((resolve,reject)=>{
+            let newMovie = new movies(movie);
+            newMovie.Date = Date.now();
                 
                 newMovie.save((err) => {
                     if(err) {
@@ -136,10 +135,7 @@ module.exports = function(connectionString){
                     } else {
                         resolve(`new Movie: ${newMovie._id} successfully added`);
                     }
-                })
-                
-                
-                
+                }) 
             });
         },
         getLatestMovies: function(){
@@ -151,9 +147,9 @@ module.exports = function(connectionString){
                 })
             })
         },
-        getMovieBytitle: function(title){
+        getMovieBytitle: function(_title){
             return new Promise((resolve,reject)=>{
-                movies.find({"title":{$regex: title}}).sort({_id:-1}).then(MovieList =>{
+                movies.find({"title":{$regex: _title}}).sort({_id:-1}).then(MovieList =>{
                     resolve(MovieList)
                 }).catch(err=>{
                     reject(err);
@@ -168,12 +164,26 @@ module.exports = function(connectionString){
                     reject(err);
                 })
             })
-        }
+        },
+        
+        saveRefreshToken: function(_token){
+        return new Promise((resolve,reject)=>{
+            let newToken = new refreshTokens(_token);
+            newToken.Date = Date.now();
+                
+            newToken.save((err) => {
+                    if(err) {
+                        reject(err)
+                    } else {
+                        resolve(_token);
+                    }
+                }) 
+            });
+        },
         
         
-
-
-
+        
+        
 
     }
 

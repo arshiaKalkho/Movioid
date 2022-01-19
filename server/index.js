@@ -29,32 +29,35 @@ app.get('/api/latest', async (req,res)=>{//for now no error checking
     res.json(latestMovies)
 })
 app.post('/api/register', async (req,res)=>{
-    
+    console.log(req.body)
     const hashedPassword = await bcrypt.hash(req.body.user.password, 10)
     var tempOBJ = req.body.user;
     tempOBJ.password = hashedPassword;
-    dataServices.registerUser(tempOBJ).then((ok)=>{
-        res.send(ok).status(201)
+    dataServices.registerUser(tempOBJ).then(()=>{
+        res.sendStatus(201)
     }).catch((err)=>{
-        res.send(err).status(500)
+        console.log(err)
+        res.sendStatus(500)
     })
 })
 app.get('/api/login',async (req,res)=>{
 
-
-
-
-
-
     const password = req.body.user.password;
     const DBhashedPass = await dataServices.getuserByUsername(req.body.user.username)
     bcrypt.compare(password, DBhashedPass,(err,result)=>{
-        if(err){
+        if(err){//err processing password
             res.send(500)
         }else if(result){
-            res.send(200)//send jwt token
-        }else{
-            res.send(400)
+            const tokens = jwtServices.createRefreshToken();
+            if(tokens.refreshToken){
+                res.json(tokens).status(200)
+
+            }else{//err processing tokens
+                res.sendStatus(500)
+            }
+        
+        }else{//wrong password
+            res.send(403)
         }
     })
 })

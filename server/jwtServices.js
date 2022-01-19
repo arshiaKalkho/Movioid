@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-const dataServices = require("./dataServices");
+
 
 
 module.exports = function(DBconnection){
@@ -30,9 +30,19 @@ module.exports = function(DBconnection){
             })
         },
         createRefreshToken: function(user){
-            return jwt.sign(user, process.env.JWT_ACCESS_TOKEN_SECRET,
-                { expiresIn: '30m' })
-            
+            const refToken = jwt.sign({user:user}, process.env.JWT_REFRESH_TOKEN_SECRET,{ expiresIn: '30m' })
+            const accessToken = jwt.sign({user:user}, process.env.JWT_ACCESS_TOKEN_SECRET,{ expiresIn: '10m' })
+
+            return {
+                refreshToken : DBconnection.saveRefreshToken(refToken)
+                .then(()=>{
+                    return refToken;
+                }).catch(err=>{
+                    console.log("err saving token ",err)
+                    return null;
+                }),
+                accessToken : accessToken
+            }
         },
         validateAccessToken: function(_token){
             return new Promise((resolve,reject)=>{
