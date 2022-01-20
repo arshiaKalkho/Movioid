@@ -183,6 +183,18 @@ module.exports = function(connectionString){
                 }) 
             });
         },
+        deleteRefreshToken: function(_token){
+        return new Promise((resolve,reject)=>{
+
+            refreshTokens.deleteOne({token:_token},(err) => {
+                    if(err) {
+                        reject(err)
+                    } else {
+                        resolve("token '",_token,"' deleted.");
+                    }
+                }) 
+            });
+        },
         
         
         

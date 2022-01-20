@@ -40,6 +40,21 @@ app.post('/api/register', async (req,res)=>{
         res.sendStatus(500)
     })
 })
+
+app.get('/api/token',async (req,res)=>{
+    
+    if(req.body.token){
+        jwtServices.validateRefreshToken(req.body.token)
+        .then(accessToken=>{
+            res.json({token:accessToken})
+        }).catch(err=>{
+            res.status(401).send(err)
+        })
+    }else{
+        res.sendStatus(401)
+    }
+})
+
 app.get('/api/login',async (req,res)=>{
 
     const password = req.body.user.password;
@@ -64,7 +79,7 @@ app.get('/api/login',async (req,res)=>{
                 
             
             }else{//wrong password
-                res.sendStatud(403)
+                res.sendStatus(403)
             }
         })
     }else{//username not found
