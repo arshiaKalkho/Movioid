@@ -72,7 +72,7 @@ export default class ClientSideDataServices{
         })
     }
 
-    static getNewAccessToken(){//attempt to retireve new access token with refresh token
+    static getNewAccessToken(){
         return new Promise((resolve,reject)=>{
             const refreshToken = localStorage.getItem("refreshToken");
             if(refreshToken){

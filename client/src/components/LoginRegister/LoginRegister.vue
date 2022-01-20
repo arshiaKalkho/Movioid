@@ -31,15 +31,26 @@ export default {
             userName:"",
             password:"",
             confirmPassword:"",
-            email:""
+            email:"",
+            err:""
         }
     },
     methods:{
-        login(){
-            DataServices.loginUser()
+        async login(){
+            DataServices.loginUser().then(()=>{
+                this.err=""
+            }).catch(()=>{
+                this.err="username or password incorrect"
+            })
         },
-        register(){
+        async register(){
+            DataServices.registerUser().then(()=>{
+                this.err=""
+            }).catch(()=>{
+                this.err="username or email is already in use"
+            })
 
+            
         }
     }
 }
