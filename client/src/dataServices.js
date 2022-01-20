@@ -8,7 +8,7 @@ const baseUrl = "api/"
 export default class ClientSideDataServices{
     static getLatestMovies(){
         return new Promise((resolve,reject)=>{
-                axios.get(baseUrl+"/latest").then(
+                axios.get(baseUrl+"latest").then(
                     resMovies=>{
                         resolve(
                             resMovies.data.map(movie=>({
@@ -81,7 +81,7 @@ export default class ClientSideDataServices{
             }).then(response=>{
                 resolve(response)
             }).catch(err=>{
-                reject("invalid token")
+                reject("invalid token",err)
             })  
             }else{
                 reject("no refresh token in local storage")
