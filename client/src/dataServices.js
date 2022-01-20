@@ -1,6 +1,7 @@
 
 
 const axios = require('axios');
+const jwt = require('jsonwebtoken')
 const baseUrl = "api/"
 //const usersUrl = "api/users"
 
@@ -76,17 +77,26 @@ export default class ClientSideDataServices{
         return new Promise((resolve,reject)=>{
             const refreshToken = localStorage.getItem("refreshToken");
             if(refreshToken){
-            axios.post(baseUrl+"token", {
-                token:refreshToken
-            }).then(response=>{
-                resolve(response)
-            }).catch(err=>{
-                reject("invalid token",err)
-            })  
+                axios.post(baseUrl+"token", {
+                    token:refreshToken
+                }).then(response=>{
+                    resolve(response)
+                }).catch(err=>{
+                    reject("invalid token",err)
+                })  
             }else{
                 reject("no refresh token in local storage")
             }
         })
         
     }
+    static getLoggedInUsername(){
+        const refreshToken = localStorage.getItem("refreshToken");
+        if(refreshToken){
+            return jwt.decode(refreshToken);
+        }else{
+            return null;
+        }
+    }
+
 }

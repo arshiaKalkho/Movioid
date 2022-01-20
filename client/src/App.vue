@@ -161,9 +161,9 @@
 
     <router-link class="nav-links" to="/">Home</router-link>
     <router-link class="nav-links" to="/addMovie">Add Movie</router-link>
-    <router-link class="nav-links" to="/editMovie">Edit Movie</router-link>
+    
   </div>
-  <router-view />
+  <router-view/>
   <div class="footer">
     footer stuff here
   </div>
