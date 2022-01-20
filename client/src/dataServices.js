@@ -35,7 +35,7 @@ export default class ClientSideDataServices{
                 })
         })
     }
-    static addNewMovie(movie){
+    static addNewMovie(movie){//protected route
         return new Promise((resolve,reject)=>{
             axios.post(baseUrl+"movie",{
                 movie:movie
@@ -44,17 +44,6 @@ export default class ClientSideDataServices{
             ).catch((err)=>{
                 reject(err)
             })
-        })
-    }
-    static loginUser(user){
-        return new Promise((resolve,reject)=>{
-            axios.get(baseUrl+"login", {
-                user:user
-            }).then(response=>{
-                resolve(response.jwt)
-            }).catch(err=>{
-                reject(err)
-            })  
         })
     }
     static registerUser(user){
@@ -68,5 +57,36 @@ export default class ClientSideDataServices{
             })  
             
         })
+    }
+    static loginUser(user){
+        return new Promise((resolve,reject)=>{
+            axios.get(baseUrl+"login", {
+                user:user
+            }).then(response=>{
+                localStorage.setItem("refreshToken",response.refreshToken)
+                localStorage.setItem("accessToken",response.accessToken)
+                resolve(response)
+            }).catch(err=>{
+                reject(err)
+            })  
+        })
+    }
+
+    static getNewAccessToken(){//attempt to retireve new access token with refresh token
+        return new Promise((resolve,reject)=>{
+            const refreshToken = localStorage.getItem("refreshToken");
+            if(refreshToken){
+            axios.post(baseUrl+"token", {
+                token:refreshToken
+            }).then(response=>{
+                resolve(response)
+            }).catch(err=>{
+                reject("invalid token")
+            })  
+            }else{
+                reject("no refresh token in local storage")
+            }
+        })
+        
     }
 }
