@@ -47,11 +47,17 @@ export default class ClientSideDataServices{
             })
         })
     }
-    static registerUser(user){
+    static registerUser(usrnm ,pswrd,email){
         return new Promise((resolve,reject)=>{
-            axios.post(baseUrl+"register", {
-                user:user
+            axios(baseUrl+"register",  {
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                data:{user:{username:usrnm,password:pswrd,email:email}},
+                method: 'POST'
+                
             }).then(response=>{
+                console.log(response)
                 resolve(response)
             }).catch(err=>{
                 reject(err)
@@ -59,13 +65,23 @@ export default class ClientSideDataServices{
             
         })
     }
-    static loginUser(user){
+    static loginUser(usrnm, pswrd){
+        //body formant
+        // "user":{
+        //     "username":"root",
+        //     "password":"password"
+        // }
         return new Promise((resolve,reject)=>{
-            axios.get(baseUrl+"login", {
-                user:user
+            axios(baseUrl+"login",  {
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                data:{user:{username:usrnm,password:pswrd}},
+                method: 'POST'
+                
             }).then(response=>{
-                localStorage.setItem("refreshToken",response.refreshToken)
-                localStorage.setItem("accessToken",response.accessToken)
+                localStorage.setItem("refreshToken",response.data.refreshToken)
+                localStorage.setItem("accessToken",response.data.accessToken)
                 resolve(response)
             }).catch(err=>{
                 reject(err)

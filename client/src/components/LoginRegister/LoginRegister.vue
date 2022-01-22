@@ -2,23 +2,24 @@
     <div class="login-register-container">
         <div class="floating-container">
             <h3>Login/Register</h3>
+            <span class="error">{{err}}</span>
             <div class="login-box">
                 <label for="username">Username: </label>
-                <input id="username" type="text" class="input">
-                <label for="password">Password: </label>
-                <input id="password" type="text" class="input">
-                <button class="login-button ">Login</button>
+                <input id="username" type="text" class="input" v-model="userName">
+                <label for="password" >Password: </label>
+                <input id="password" type="password" class="input" v-model="password">
+                <button v-on:click="login" class="login-button ">Login</button>
             </div>
             <div class="register-box">
                 <label for="retype-password">confirm password
                     <span class="subText">(for registeration only)</span>
                 </label>
-                <input id="retype-password" type="text" class="input">
+                <input id="retype-password" type="password" class="input"  v-model="confirmPassword">
                 <label for="password">Email: </label>
-                <input id="password" type="text" class="input">
+                <input id="email" type="text" class="input" v-model="email">
             </div>
             <div class="buttons-contianer">
-                <button class="register-button">Reginster</button>
+                <button v-on:click="register" class="register-button">Reginster</button>
             </div>
         </div>
     </div>
@@ -37,16 +38,26 @@ export default {
     },
     methods:{
         async login(){
-            DataServices.loginUser().then(()=>{
+            DataServices.loginUser(this.userName, this.password).then(()=>{
                 this.err=""
             }).catch(()=>{
                 this.err="username or password incorrect"
             })
         },
         async register(){
-            DataServices.registerUser().then(()=>{
-                this.err=""
-            }).catch(()=>{
+            document.getElementById
+            
+            if(!this.password ||!this.confirmPassword || !this.email ){
+                this.err = "please fill all the fields"
+                return
+            }
+            if(this.password != this.confirmPassword){
+                this.err = "passwords don't match"
+                return
+            }
+            DataServices.registerUser(this.userName, this.password, this.email).then(()=>{
+                location.reload();
+                }).catch(()=>{
                 this.err="username or email is already in use"
             })
 
@@ -108,6 +119,10 @@ export default {
         background-color: var(--color-text);
         margin:0.5rem;
         border:1px solid black;
+    }
+    .error{
+    color: red;
+    font-size: 0.7rem;
     }
     .login-button:hover,
     .register-button:hover{

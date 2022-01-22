@@ -101,9 +101,9 @@ module.exports = function(connectionString){
     
                 let newUser = new users(data);
                 newUser.Date = Date.now();
-                
-                    newUser.save((err) => {
+                newUser.save((err) => {
                     if(err) {
+                        console.log(err)
                         reject(err , "user already exists")
                     } else {
                         resolve(`new user: ${newUser.email} successfully added`);

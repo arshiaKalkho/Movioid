@@ -33,10 +33,10 @@ app.post('/api/register', async (req,res)=>{
     const hashedPassword = await bcrypt.hash(req.body.user.password, 10)
     var tempOBJ = req.body.user;
     tempOBJ.password = hashedPassword;
+    
     dataServices.registerUser(tempOBJ).then(()=>{
         res.sendStatus(201)
     }).catch((err)=>{
-        //console.log(err)
         res.sendStatus(500)
     })
 })
@@ -55,35 +55,43 @@ app.get('/api/token',async (req,res)=>{
     }
 })
 
-app.get('/api/login',async (req,res)=>{
-
-    const password = req.body.user.password;
-    const DBuserObj = await dataServices.getuserByUsername(req.body.user.username)
-    if(DBuserObj){//if username found
-        bcrypt.compare(password, DBuserObj.password,(err,result)=>{
-            if(err){//err processing password
-                res.sendStatus(500)
-            }else if(result){//make tokens, true password
-                jwtServices.createRefreshToken(req.body.user.username).then((tokens)=>{
-                    if(!tokens.err){
-                        
-                        res.json(tokens)
+app.post('/api/login',async (req,res)=>{//post because of axios bug on front end
     
-                    }else{//err processing tokens
-                        res.sendStatus(500)
-                    }
+    if(req.body.user && req.body.user.password && req.body.user.username){
+        const password = req.body.user.password.replace(/\s/g, "");
+        const username = req.body.user.username.replace(/\s/g, "");
+        
 
-                }).catch(err=>{
+        const DBuserObj = await dataServices.getuserByUsername(username)
+        
+        if(DBuserObj){//if username found
+            bcrypt.compare(password, DBuserObj.password,(err,result)=>{
+                if(err){//err processing password
                     res.sendStatus(500)
-                })
+                }else if(result){//make tokens, true password
+                    jwtServices.createRefreshToken(username).then((tokens)=>{
+                        if(!tokens.err){
+                            
+                            res.json(tokens)
+        
+                        }else{//err processing tokens
+                            res.sendStatus(500)
+                        }
+
+                    }).catch(err=>{
+                        res.sendStatus(500)
+                    })
+                    
                 
-            
-            }else{//wrong password
-                res.sendStatus(403)
-            }
-        })
-    }else{//username not found
-        res.sendStatus(403)
+                }else{//wrong password
+                    res.sendStatus(403)
+                }
+            })
+        }else{//username not found
+            res.sendStatus(403)
+        }
+    }else{//invalid request format
+        res.sendStatus(400)
     }
 })
 app.get('/api/movie', async (req,res)=>{
