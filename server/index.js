@@ -41,14 +41,13 @@ app.post('/api/register', async (req,res)=>{
     })
 })
 
-app.get('/api/token',async (req,res)=>{
-    
-    if(req.body.token){
-        jwtServices.validateRefreshToken(req.body.token)
+app.post('/api/token',async (req,res)=>{//thank you axios for making me use post for everything(sarcasm)
+    if(req.body.refreshToken){
+        jwtServices.validateRefreshToken(req.body.refreshToken)
         .then(accessToken=>{
-            res.json({token:accessToken})
+            res.json({refreshToken:accessToken})
         }).catch(err=>{
-            res.status(401).send(err)
+            res.sendStatus(401)
         })
     }else{
         res.sendStatus(401)

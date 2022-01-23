@@ -23,11 +23,15 @@ export default {
     Search,
   },
   created(){
-    const tempUser = DataServices.getLoggedInUsername()
-    if(tempUser){
-      this.currentUser = tempUser;
+    DataServices.getVerifiedUsername().then((user)=>{
+      this.currentUser = user;
       this.isUserLoggedIn = true;
-    }
+    }).catch(()=>{
+      this.isUserLoggedIn = false;
+      this.currentUser = "";
+    })
+    
+    
   }
 };
 </script>

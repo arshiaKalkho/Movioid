@@ -57,7 +57,6 @@ export default class ClientSideDataServices{
                 method: 'POST'
                 
             }).then(response=>{
-                console.log(response)
                 resolve(response)
             }).catch(err=>{
                 reject(err)
@@ -106,14 +105,35 @@ export default class ClientSideDataServices{
         })
         
     }
-    static getLoggedInUsername(){
-        const refreshToken = localStorage.getItem("refreshToken");
-        if(refreshToken){
-            return jwt.decode(refreshToken).user;
-        }else{
-            return null;
-        }
+    static getVerifiedUsername(){
+        return new Promise((resolve,reject)=>{
+            const refreshToken = localStorage.getItem("refreshToken");
+            if(refreshToken){
+                let user = jwt.decode(refreshToken).user;
+                axios(baseUrl+"token",  {
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    data:{refreshToken:refreshToken},
+                    method: 'POST'
+                    
+                }).then(response=>{
+                    localStorage.setItem("accessToken",response.data.refreshToken)
+                    resolve(user)
+                }).catch(()=>{//reset user
+                    localStorage.removeItem("accessToken")
+                    localStorage.removeItem("refreshToken")
+                    reject()
+                })  
+            
+            }else{
+                reject();
+            }
+        
+        })
     }
+
+    
     static logOutUser(){
         return new Promise((resolve,reject)=>{
             axios(baseUrl+"logout",  {

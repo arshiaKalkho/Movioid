@@ -103,7 +103,6 @@ module.exports = function(connectionString){
                 newUser.Date = Date.now();
                 newUser.save((err) => {
                     if(err) {
-                        console.log(err)
                         reject(err , "user already exists")
                     } else {
                         resolve(`new user: ${newUser.email} successfully added`);
@@ -159,8 +158,6 @@ module.exports = function(connectionString){
         getRefreshToken(_token){
             return new Promise((resolve,reject)=>{
                 refreshTokens.findOne({"token":_token}).then(token =>{
-                    
-                
                     resolve(token)
                 }).catch(err=>{
                     reject(err);
