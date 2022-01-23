@@ -54,7 +54,6 @@ export default {
             })
         },
         async register(){
-            document.getElementById
             
             if(!this.password ||!this.confirmPassword || !this.email ){
                 this.err = "please fill all the fields"

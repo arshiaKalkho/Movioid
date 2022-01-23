@@ -3,36 +3,45 @@
     <input class="search-box" placeholder="Search for movies and tv shows" />
     <button class="search-button button">Search</button>
     <div class="search-buttons">
-      <router-link to="/login" v-if="loginstat">
+      <router-link to="/login" v-if="!isUserLoggedIn">
         <button class="LoginRegister-button button" >
           <span class="login-inner-text">Login</span>
           /
           <span class="register-inner-text">Register</span>
         </button>
       </router-link>
-      
+      <button class="LoginRegister-button button" v-on:click="logout" v-if="isUserLoggedIn" > 
+          <span class="login-inner-text">Log</span>
+          <span class="register-inner-text">Out</span>
+        </button>
     </div>
   </div>
 </template>
 
 <script>
+  import DataServices from'../../dataServices';
 
 export default {
   name: "Search",
   props:{
-    user:String
+    isUserLoggedIn:Boolean
   },
   Data(){
     return{
       latestMovies:[],
       searchQuery: '',
-      loginstat:false,
       error: ''
     }
   },
-  created(){
-    if(this.user != ""){
-      
+  methods:{
+    async logout(){
+      console.log("called")
+      DataServices.logOutUser().then(res=>{
+        console.log("res: ", res)
+        location.reload();
+      }).catch(err=>{
+        console.log("err: ", err)
+      })
     }
   }
   

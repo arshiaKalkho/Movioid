@@ -1,7 +1,9 @@
 <template>
   <div class="main">
-    <div calss="welcome">Welcom {{currentUser}}</div>
-    <Search></Search>
+    
+    <div v-if="currentUser != ''" calss="welcome">Welcom {{currentUser}}</div>
+    
+    <Search :isUserLoggedIn="isUserLoggedIn"></Search>
   </div>
 </template>
 
@@ -13,16 +15,18 @@ export default {
   name: "Home",
   data(){
     return{
-      currentUser:""
+      currentUser:"",
+      isUserLoggedIn:false
     }
   },
   components: {
     Search,
   },
-  async created(){
+  created(){
     const tempUser = DataServices.getLoggedInUsername()
     if(tempUser){
       this.currentUser = tempUser;
+      this.isUserLoggedIn = true;
     }
   }
 };

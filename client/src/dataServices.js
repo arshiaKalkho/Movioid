@@ -114,5 +114,23 @@ export default class ClientSideDataServices{
             return null;
         }
     }
+    static logOutUser(){
+        return new Promise((resolve,reject)=>{
+            axios(baseUrl+"logout",  {
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                data:{refreshToken:localStorage.getItem("refreshToken")},
+                method: 'DELETE'
+                
+            }).then(response=>{
+                localStorage.removeItem("refreshToken")
+                localStorage.removeItem("accessToken")
+                resolve(response)
+            }).catch(err=>{
+                reject(err)
+            })  
+        })
+    }
 
 }

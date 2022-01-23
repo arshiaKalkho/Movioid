@@ -54,6 +54,20 @@ app.get('/api/token',async (req,res)=>{
         res.sendStatus(401)
     }
 })
+app.delete('/api/logout',async (req,res)=>{
+    if(req.body.refreshToken){
+        dataServices.deleteRefreshToken(req.body.refreshToken)
+        .then(()=>{
+            res.sendStatus(204)
+        })
+        .catch(err=>{
+            res.sendStatus(500)
+        })
+        
+    }else{
+        res.sendStatus(401)
+    }
+})
 
 app.post('/api/login',async (req,res)=>{//post because of axios bug on front end
     
