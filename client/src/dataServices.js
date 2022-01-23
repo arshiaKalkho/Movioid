@@ -109,7 +109,7 @@ export default class ClientSideDataServices{
     static getLoggedInUsername(){
         const refreshToken = localStorage.getItem("refreshToken");
         if(refreshToken){
-            return jwt.decode(refreshToken);
+            return jwt.decode(refreshToken).user;
         }else{
             return null;
         }

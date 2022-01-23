@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <div calss="welcome">Welcom {{currentUser}}</div>
     <Search></Search>
   </div>
 </template>
@@ -10,14 +11,18 @@ import DataServices from "../../dataServices"
 import Search from "../Search/Search.vue";
 export default {
   name: "Home",
+  data(){
+    return{
+      currentUser:""
+    }
+  },
   components: {
     Search,
   },
   async created(){
-    try{
-      this.latestMovies = await DataServices.getLatestMovies();
-    }catch(err){
-      this.error = err;
+    const tempUser = DataServices.getLoggedInUsername()
+    if(tempUser){
+      this.currentUser = tempUser;
     }
   }
 };
@@ -28,6 +33,7 @@ export default {
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-image: url(../../assets/movioid-main-page-background.png);
@@ -35,5 +41,8 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   margin-top: 0;
+}
+.welcome{
+  padding-bottom: 2rem;
 }
 </sytle>

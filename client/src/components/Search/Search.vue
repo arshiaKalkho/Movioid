@@ -3,13 +3,14 @@
     <input class="search-box" placeholder="Search for movies and tv shows" />
     <button class="search-button button">Search</button>
     <div class="search-buttons">
-      <router-link to="/login">
-        <button class="LoginRegister-button button">
+      <router-link to="/login" v-if="loginstat">
+        <button class="LoginRegister-button button" >
           <span class="login-inner-text">Login</span>
           /
           <span class="register-inner-text">Register</span>
         </button>
       </router-link>
+      
     </div>
   </div>
 </template>
@@ -18,11 +19,20 @@
 
 export default {
   name: "Search",
+  props:{
+    user:String
+  },
   Data(){
     return{
       latestMovies:[],
       searchQuery: '',
+      loginstat:false,
       error: ''
+    }
+  },
+  created(){
+    if(this.user != ""){
+      
     }
   }
   
