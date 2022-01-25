@@ -1,11 +1,22 @@
 const mongoose = require('mongoose');
 let scene = new mongoose.Schema({
-    startTime:{type:Number,
-    required:true},
-    endTime:{type:Number,
-    required:true},
-    rating:{type:Number,
-    required:true}
+    startTime:{
+        type:Number,
+        required:true
+    },
+    endTime:{
+        type:Number,
+        required:true
+    },
+    type:{
+        type: String,
+        enum : [
+            'awkward',
+            'kiss',
+            'nudity'
+        ],
+        required:true
+    }
 })
 
 let movieSchema = new mongoose.Schema({
@@ -84,6 +95,7 @@ module.exports = function(connectionString){
     let users;//db instances are saved here after initialization
     let movies;//so other functions can access them like RegisterUser...
     let refreshTokens;
+    
     return{
         
         initialize: function(){//stablish connection to db
@@ -97,6 +109,7 @@ module.exports = function(connectionString){
                     users = db1.model("users", userSchema);//compiling a db instance into users
                     movies = db1.model("movies", movieSchema);//compiling a db instance into movies
                     refreshTokens = db1.model("refreshTokens", refreshToken)
+                    
                     resolve();
                 });
             });
@@ -128,13 +141,18 @@ module.exports = function(connectionString){
             });
         },
 
-        createMovie: function(movie){
+        createMovie: function(_movie){
         return new Promise((resolve,reject)=>{
+            let movie = _movie;
+            for(var i = 0; i<_movie.length;i++){
+                movie.scenes[i].push(scene(_movie.scenes[i]))
+            }
             let newMovie = new movies(movie);
             newMovie.Date = Date.now();
                 
                 newMovie.save((err) => {
                     if(err) {
+                        
                         reject(err)
                     } else {
                         resolve(`new Movie: ${newMovie._id} successfully added`);

@@ -21,7 +21,7 @@ module.exports = function(DBconnection){
                                 })
                                 reject("refresh token expired")
                             }else if(userOBJ){
-                                const token = jwt.sign({user:userOBJ.user}, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn:"10m" })
+                                const token = jwt.sign({user:userOBJ.user}, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn:"30m" })
                                 resolve(token);
                             }
                             
@@ -38,7 +38,7 @@ module.exports = function(DBconnection){
         createRefreshToken:async function(user){
             const refToken = jwt.sign({user:user}, process.env.JWT_REFRESH_TOKEN_SECRET,{ expiresIn: "60m"  })
             
-            const accessToken = jwt.sign({user:user}, process.env.JWT_ACCESS_TOKEN_SECRET,{ expiresIn: "10m" })
+            const accessToken = jwt.sign({user:user}, process.env.JWT_ACCESS_TOKEN_SECRET,{ expiresIn: "30m" })
             
             
 

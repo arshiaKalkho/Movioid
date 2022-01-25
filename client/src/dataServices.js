@@ -70,7 +70,7 @@ export default class ClientSideDataServices{
         })
     }
     static loginUser(usrnm, pswrd){
-        //body formant
+        //body format
         // "user":{
         //     "username":"root",
         //     "password":"password"

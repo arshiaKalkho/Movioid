@@ -21,7 +21,6 @@
 
 <script>
   import DataServices from'../../dataServices';
-
 export default {
   name: "Search",
   props:{
@@ -45,7 +44,6 @@ export default {
     }
   }
   
-
 };
 </script>
 
@@ -76,8 +74,6 @@ export default {
   outline:none;
   outline-color:var(--color-text);
 }
-
-
 .search-buttons {
   margin-top: 1rem;
   margin-bottom:0;
@@ -111,7 +107,6 @@ export default {
       var(--color-text)
     )
     1;
-
   transition: 100ms ease-in-out;
 }
 .login-inner-text {
