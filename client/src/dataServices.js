@@ -36,14 +36,14 @@ export default class ClientSideDataServices{
                 })
         })
     }
-    static addNewMovie(movie){//protected route
+    static addNewMovie(_movie){//protected route
         return new Promise((resolve,reject)=>{
             axios(baseUrl+"movie",{
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization':`Bearer ${localStorage.getItem('accessToken')}`
                 },
-                data:{movie:movie},
+                data:{movie:_movie},
                 method: "POST"
             }).then(response=>
                 resolve(response)
