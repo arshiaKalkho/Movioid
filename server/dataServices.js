@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
-
+let scene = new mongoose.Schema({
+    startTime:{type:Number,
+    required:true},
+    endTime:{type:Number,
+    required:true},
+    rating:{type:Number,
+    required:true}
+})
 
 let movieSchema = new mongoose.Schema({
     genre:{
@@ -27,9 +34,7 @@ let movieSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    scenes:[{
-        scene:String  
-    }],
+    scenes:[scene],
     rating:  {
         type: Number,
         required: true

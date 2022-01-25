@@ -1,4 +1,5 @@
 <template>
+  
   <div class="search-box-container">
     <input class="search-box" placeholder="Search for movies and tv shows" />
     <button class="search-button button">Search</button>
@@ -36,11 +37,10 @@ export default {
   methods:{
     async logout(){
       console.log("called")
-      DataServices.logOutUser().then(res=>{
-        console.log("res: ", res)
+      DataServices.logOutUser().then(()=>{
         location.reload();
-      }).catch(err=>{
-        console.log("err: ", err)
+      }).catch(()=>{
+        this.error = "something went wrong"
       })
     }
   }
@@ -53,6 +53,14 @@ export default {
 .search-box-container {
   padding-bottom: 5rem;
   padding-left: 8rem;
+}
+.search-error{
+  width:fit-content;
+  padding: 2px;
+  height: 2rem;
+  background-color: var(--color-primary);
+  border: 1px solid red;
+  border-radius: 5px;
 }
 .search-box {
   text-align: center;

@@ -38,8 +38,13 @@ export default class ClientSideDataServices{
     }
     static addNewMovie(movie){//protected route
         return new Promise((resolve,reject)=>{
-            axios.post(baseUrl+"movie",{
-                movie:movie
+            axios(baseUrl+"movie",{
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization':`Bearer ${localStorage.getItem('accessToken')}`
+                },
+                data:{movie:movie},
+                method: "POST"
             }).then(response=>
                 resolve(response)
             ).catch((err)=>{
