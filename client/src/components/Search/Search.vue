@@ -1,6 +1,8 @@
 <template>
   
+  
   <div class="search-box-container">
+  
     <input class="search-box" placeholder="Search for movies and tv shows" />
     <button class="search-button button">Search</button>
     <div class="search-buttons">
@@ -21,24 +23,31 @@
 
 <script>
   import DataServices from'../../dataServices';
+  
+  
+  
 export default {
   name: "Search",
   props:{
+    toggleLoading:Function,
     isUserLoggedIn:Boolean
   },
   Data(){
     return{
       latestMovies:[],
       searchQuery: '',
-      error: ''
+      error: '',
+      
     }
   },
   methods:{
     async logout(){
-      console.log("called")
+        this.toggleLoading();
       DataServices.logOutUser().then(()=>{
+        this.toggleLoading();
         location.reload();
       }).catch(()=>{
+        this.toggleLoading();
         this.error = "something went wrong"
       })
     }

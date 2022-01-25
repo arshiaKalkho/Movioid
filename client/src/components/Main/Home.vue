@@ -2,25 +2,27 @@
   <div class="main">
     
     <div v-if="currentUser != ''" calss="welcome">Welcom {{currentUser}}</div>
-    
-    <Search :isUserLoggedIn="isUserLoggedIn"></Search>
+    <loading-spinner v-if="loading"></loading-spinner>
+    <Search :toggleLoading="toggleLoading" :isUserLoggedIn="isUserLoggedIn"></Search>
   </div>
 </template>
 
 <script>
 import DataServices from "../../dataServices"
-
+import loadingSpinner from '../Loading/loadingSpinner';
 import Search from "../Search/Search.vue";
 export default {
   name: "Home",
   data(){
     return{
       currentUser:"",
-      isUserLoggedIn:false
+      isUserLoggedIn:false,
+      loading:false
     }
   },
   components: {
     Search,
+    loadingSpinner
   },
   created(){
     DataServices.getVerifiedUsername().then((user)=>{
@@ -30,8 +32,11 @@ export default {
       this.isUserLoggedIn = false;
       this.currentUser = "";
     })
-    
-    
+  },
+  methods:{
+    toggleLoading(){
+      this.loading = !this.loading;
+    }
   }
 };
 </script>
