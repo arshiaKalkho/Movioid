@@ -13,7 +13,7 @@
           <span class="register-inner-text">Register</span>
         </button>
       </router-link>
-      <button class="LoginRegister-button button" v-on:click="logout" v-if="isUserLoggedIn" > 
+      <button class="LoginRegister-button button logout" v-on:click="logout" v-if="isUserLoggedIn" > 
           <span class="login-inner-text">Log</span>
           <span class="register-inner-text">Out</span>
         </button>
@@ -95,6 +95,7 @@ export default {
   background: var(--color-HeaderFooter);
   border: 1px solid grey;
 }
+
 .button:hover {
   border: 1px solid var(--color-text);
 }
@@ -108,6 +109,7 @@ export default {
   color: white;
   transition: 200ms ease-in-out;
   font-size:1.1rem;
+  padding:3px;
 }
 .LoginRegister-button:hover {
   border-image: linear-gradient(
@@ -118,6 +120,10 @@ export default {
     1;
   transition: 100ms ease-in-out;
 }
+.logout{
+  border:1px solid red;
+}
+
 .login-inner-text {
   color: var(--color-text);
   transition: 200ms ease-in-out;

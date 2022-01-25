@@ -114,7 +114,7 @@ export default class ClientSideDataServices{
         return new Promise((resolve,reject)=>{
             const refreshToken = localStorage.getItem("refreshToken");
             if(refreshToken){
-                let user = jwt.decode(refreshToken).user;
+                
                 axios(baseUrl+"token",  {
                     headers:{
                         'Content-Type': 'application/json'
@@ -123,8 +123,9 @@ export default class ClientSideDataServices{
                     method: 'POST'
                     
                 }).then(response=>{
+                    
                     localStorage.setItem("accessToken",response.data.refreshToken)
-                    resolve(user)
+                    resolve(jwt.decode(refreshToken).user)
                 }).catch(()=>{//reset user
                     localStorage.removeItem("accessToken")
                     localStorage.removeItem("refreshToken")
@@ -137,7 +138,7 @@ export default class ClientSideDataServices{
         
         })
     }
-    
+
     
     static logOutUser(){
         return new Promise((resolve,reject)=>{

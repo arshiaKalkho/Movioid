@@ -1,4 +1,5 @@
 <template lang="">
+    
     <div class="login-register-container">
         
         <loading-spinner v-if="loading"></loading-spinner>
@@ -81,7 +82,7 @@ export default {
 }
 </script>
 <style lang="css" scoped>
-
+    
     .login-register-container{
         width:100%;
         height:100vh;

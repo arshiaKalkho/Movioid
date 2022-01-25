@@ -1,6 +1,5 @@
 <template>
-  <div class="main">
-    
+  <div v-bind:class="{ loading: loading}" class="main" >
     <div v-if="currentUser != ''" calss="welcome">Welcom {{currentUser}}</div>
     <loading-spinner v-if="loading"></loading-spinner>
     <Search :toggleLoading="toggleLoading" :isUserLoggedIn="isUserLoggedIn"></Search>
@@ -16,15 +15,18 @@ export default {
   data(){
     return{
       currentUser:"",
+      movies:[],
       isUserLoggedIn:false,
-      loading:false
+      loading:false,
+      err:""
     }
   },
   components: {
     Search,
     loadingSpinner
   },
-  created(){
+  async created(){
+    this.loading = true;
     DataServices.getVerifiedUsername().then((user)=>{
       this.currentUser = user;
       this.isUserLoggedIn = true;
@@ -32,6 +34,15 @@ export default {
       this.isUserLoggedIn = false;
       this.currentUser = "";
     })
+    
+    DataServices.getLatestMovies().then((movies)=>{
+      this.movies = movies;
+      this.loading = false;
+    }).catch(()=>{
+      this.err = "sorry service not available"
+      this.loading = false
+    })
+    
   },
   methods:{
     toggleLoading(){
@@ -42,6 +53,8 @@ export default {
 </script>
 
 <sytle lang="css">
+
+
 .main {
   width: 100%;
   height: 100vh;
@@ -57,5 +70,8 @@ export default {
 }
 .welcome{
   padding-bottom: 2rem;
+}
+.loading{
+  opacity: 0.4;
 }
 </sytle>
