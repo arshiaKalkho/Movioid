@@ -25,7 +25,6 @@ app.use(cors())//prevent Cross Origin Resource Sharing errs
 
 app.get('/api/latest', async (req,res)=>{//for now no error checking
     const latestMovies = await dataServices.getLatestMovies();
-    
     res.json(latestMovies)
 })
 app.post('/api/register', async (req,res)=>{

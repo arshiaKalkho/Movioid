@@ -3,13 +3,16 @@
     <div v-if="currentUser != ''" calss="welcome">Welcom {{currentUser}}</div>
     <loading-spinner v-if="loading"></loading-spinner>
     <Search :toggleLoading="toggleLoading" :isUserLoggedIn="isUserLoggedIn"></Search>
+    <Movies :movieList="movies"></Movies>
   </div>
+
 </template>
 
 <script>
 import DataServices from "../../dataServices"
 import loadingSpinner from '../Loading/loadingSpinner';
 import Search from "../Search/Search.vue";
+import Movies from "../Search/Movies.vue"
 export default {
   name: "Home",
   data(){
@@ -23,7 +26,8 @@ export default {
   },
   components: {
     Search,
-    loadingSpinner
+    loadingSpinner,
+    Movies
   },
   async created(){
     this.loading = true;
@@ -36,6 +40,7 @@ export default {
     })
     
     DataServices.getLatestMovies().then((movies)=>{
+      console.log(movies)
       this.movies = movies;
       this.loading = false;
     }).catch(()=>{
