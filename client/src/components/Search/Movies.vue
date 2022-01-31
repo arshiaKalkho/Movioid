@@ -35,10 +35,13 @@ export default {
   padding: 3px;
   height:fit-content;
   
-  width:50vw;
+  width:calc(70vw + 6.5rem);
+ 
+
 }
 @media only screen and (max-width: 500px) {
   .movie-list{
+    
     width:calc(60vw + 6.5rem);
   }
 }
