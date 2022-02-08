@@ -2,6 +2,7 @@
   <div v-bind:class="{ loading: loading}" class="main" >
     <div v-if="currentUser != ''" calss="welcome">Welcom {{currentUser}}</div>
     <loading-spinner v-if="loading"></loading-spinner>
+  
     <Search :toggleLoading="toggleLoading" :isUserLoggedIn="isUserLoggedIn"></Search>
     <Movies :movieList="movies"></Movies>
   </div>
@@ -67,12 +68,14 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: 3rem;
   background-image: url(../../assets/movioid-main-page-background.png);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   margin-top: 0;
+  padding-bottom: 2rem;
 }
 .welcome{
   padding-bottom: 2rem;

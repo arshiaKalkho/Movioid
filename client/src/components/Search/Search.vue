@@ -58,8 +58,8 @@ export default {
 
 <style>
 .search-box-container {
-  padding-bottom: 5rem;
-  padding-left: 8rem;
+  padding-bottom: 2rem;
+  padding-left: 5.5rem;
 }
 .search-error{
   width:fit-content;
