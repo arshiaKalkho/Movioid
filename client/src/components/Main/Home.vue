@@ -48,7 +48,7 @@ export default {
       this.err = "sorry service not available"
       this.loading = false
     })
-    this.loading=false;//temporary while debugging
+    //this.loading=false;//temporary while debugging
     
   },
   methods:{

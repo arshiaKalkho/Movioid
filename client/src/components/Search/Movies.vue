@@ -1,18 +1,21 @@
 <template lang="">
   <ul class="movie-list">
             <li class="movie-list-element" v-for="(movie,index) in movieList" :key="index">
-                <div class="element-header">
-                    <span class="place-holder-text">scene no:</span>
-                    {{movie.index}}<br/>
-                    <span class="place-holder-text">from:</span> {{movie.startTime}}
-                    <span class="place-holder-text">to:</span> {{movie.endTime}}
+                <div class="movie-list-element-container">
+                  <div class="element-header">
+                      <h2 class="place-holder-text">Title: {{movie.title}} </h2>
                     
-                </div>
+                      <span class="place-holder-text">Genre: </span> {{movie.genre}}
+                      <br/>
+                      <span class="place-holder-text">Posted By: </span> {{movie.author}}
+                      
+                  </div>
                 
                 <div class="element-body">
-                <span class="place-holder-text">Type:</span> {{movie.type}}
-                </div>
+                <span class="place-holder-text">Duration:</span> {{movie.duration}}<br/>
                 <button v-on:click="sendIndexToParentToDelete(scene.index)" class="delete-button">delete</button>
+                </div>
+                </div>
             </li>
         </ul>
 </template>
@@ -38,6 +41,16 @@ export default {
   width:calc(70vw + 6.5rem);
  
 
+}
+.movie-list-element-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.movie-list-element{
+  border-bottom: 1px solid var(--color-text);
+  padding:1rem;
+  height: 5rem;
 }
 @media only screen and (max-width: 500px) {
   .movie-list{
