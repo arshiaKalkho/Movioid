@@ -25,7 +25,7 @@ app.use(cors())//prevent Cross Origin Resource Sharing errs
 
 app.get('/api/latest', async (req,res)=>{//for now no error checking
     dataServices.getLatestMovies().then((latestMovies)=>
-        res.json(latestMovies).send()
+        res.json(latestMovies)
     ).catch(()=>{
         res.sendStatus(500)
     })
@@ -43,10 +43,10 @@ app.post('/api/register', async (req,res)=>{
     })
 })
 
-app.post('/api/token',async (req,res)=>{//thank you axios for making me use post for everything(sarcasm)
+app.get('/api/token',async (req,res)=>{
     
-    if(req.body.refreshToken){
-        jwtServices.validateRefreshToken(req.body.refreshToken)
+    if(req.query.token){
+        jwtServices.validateRefreshToken(req.query.token)
         .then(accessToken=>{
             res.json({accessToken:accessToken})
         }).catch(err=>{

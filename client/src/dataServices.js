@@ -117,14 +117,7 @@ export default class ClientSideDataServices{
             const refreshToken = localStorage.getItem("refreshToken");
             if(refreshToken){
                 
-                axios(baseUrl+"token",  {
-                    headers:{
-                        'Content-Type': 'application/json'
-                    },
-                    data:{refreshToken:refreshToken},
-                    method: 'POST'
-                    
-                }).then(response=>{
+                axios.get(baseUrl+`token?token=${refreshToken}`).then(response=>{
                     
                     localStorage.setItem("accessToken",response.data.accessToken)
                     resolve(jwt.decode(refreshToken).user)
