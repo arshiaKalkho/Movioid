@@ -38,7 +38,7 @@ module.exports = function(DBconnection){
         createRefreshToken:async function(user){
             const refToken = jwt.sign({user:user}, process.env.JWT_REFRESH_TOKEN_SECRET,{ expiresIn: "60m"  })
             
-            const accessToken = jwt.sign({user:user}, process.env.JWT_ACCESS_TOKEN_SECRET,{ expiresIn: "30m" })
+            const accessToken = jwt.sign({user:user}, process.env.JWT_ACCESS_TOKEN_SECRET,{ expiresIn: "15m" })
             
             
 
@@ -53,13 +53,13 @@ module.exports = function(DBconnection){
 
             
         },
-        validateAccessToken: function(_token){
+        validateAccessToken:async function(_token){
             return new Promise((resolve,reject)=>{
                 jwt.verify(_token, process.env.JWT_ACCESS_TOKEN_SECRET,(err, user)=>{
                     if(err){
-                        reject(err)
+                        reject()
                     }else{
-                    resolve(user)
+                        resolve()
                     }
                 })
             })

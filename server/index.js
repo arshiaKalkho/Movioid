@@ -5,11 +5,11 @@ const dbConnectionString = process.env.CONNECTION_STRING;
 
 const express = require("express");
 app = express();
+app.set('query parser', 'simple');
 
 const bodyparser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require('bcrypt')
-
 const dataServicesF = require("./dataServices");
 const jwtServicesF = require('./jwtServices');
 const dataServices = dataServicesF(dbConnectionString);
@@ -24,8 +24,11 @@ app.use(cors())//prevent Cross Origin Resource Sharing errs
 
 
 app.get('/api/latest', async (req,res)=>{//for now no error checking
-    const latestMovies = await dataServices.getLatestMovies();
-    res.json(latestMovies)
+    dataServices.getLatestMovies().then((latestMovies)=>
+        res.json(latestMovies).send()
+    ).catch(()=>{
+        res.sendStatus(500)
+    })
 })
 app.post('/api/register', async (req,res)=>{
     
@@ -41,13 +44,23 @@ app.post('/api/register', async (req,res)=>{
 })
 
 app.post('/api/token',async (req,res)=>{//thank you axios for making me use post for everything(sarcasm)
+    
     if(req.body.refreshToken){
         jwtServices.validateRefreshToken(req.body.refreshToken)
         .then(accessToken=>{
-            res.json({refreshToken:accessToken})
+            res.json({accessToken:accessToken})
         }).catch(err=>{
             res.sendStatus(401)
         })
+    }else{
+        res.sendStatus(401)
+    }
+})
+app.get('/api/accessToken',async (req,res)=>{
+    if(req.query.token){
+    jwtServices.validateAccessToken(req.query.token)
+    .then(reponse=>res.sendStatus(200))
+    .catch(err=>res.sendStatus(401))//this is just in case of vue routeguards, middle wears could be used
     }else{
         res.sendStatus(401)
     }
@@ -70,7 +83,7 @@ app.delete('/api/logout',async (req,res)=>{
 app.post('/api/login',async (req,res)=>{//post because of axios bug on front end
     
     if(req.body.user && req.body.user.password && req.body.user.username){
-        const password = req.body.user.password.replace(/\s/g, "");
+        const password = req.body.user.password.replace(/\s/g, "");//white space remover
         const username = req.body.user.username.replace(/\s/g, "");
         
 

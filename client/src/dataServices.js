@@ -86,6 +86,7 @@ export default class ClientSideDataServices{
             }).then(response=>{
                 localStorage.setItem("refreshToken",response.data.refreshToken)
                 localStorage.setItem("accessToken",response.data.accessToken)
+                
                 resolve(response)
             }).catch(err=>{
                 reject(err)
@@ -98,9 +99,10 @@ export default class ClientSideDataServices{
             const refreshToken = localStorage.getItem("refreshToken");
             if(refreshToken){
                 axios.post(baseUrl+"token", {
-                    token:refreshToken
+                    refreshToken:refreshToken
                 }).then(response=>{
-                    resolve(response)
+                    localStorage.setItem("accessToken",response.accessToken)
+                    resolve(response.accessToken)
                 }).catch(err=>{
                     reject("invalid token",err)
                 })  
@@ -124,7 +126,7 @@ export default class ClientSideDataServices{
                     
                 }).then(response=>{
                     
-                    localStorage.setItem("accessToken",response.data.refreshToken)
+                    localStorage.setItem("accessToken",response.data.accessToken)
                     resolve(jwt.decode(refreshToken).user)
                 }).catch(()=>{//reset user
                     localStorage.removeItem("accessToken")
@@ -156,6 +158,20 @@ export default class ClientSideDataServices{
             }).catch(err=>{
                 reject(err)
             })  
+        })
+    }
+    static validateAccessToken(){
+        return new Promise((resolve,reject)=>{
+            let accessToken =localStorage.getItem('accessToken');
+            axios.get(baseUrl+`accessToken?token=${accessToken}`)
+            .then(response=>{
+                if(response.statusCode === 200){
+                    resolve()
+                }else{
+                    reject()
+                }
+            })
+            .catch(()=>reject())
         })
     }
 
