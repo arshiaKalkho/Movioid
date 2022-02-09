@@ -98,9 +98,7 @@ export default class ClientSideDataServices{
         return new Promise((resolve,reject)=>{
             const refreshToken = localStorage.getItem("refreshToken");
             if(refreshToken){
-                axios.post(baseUrl+"token", {
-                    refreshToken:refreshToken
-                }).then(response=>{
+                axios.get(baseUrl+`token?token=${refreshToken}`).then(response=>{
                     localStorage.setItem("accessToken",response.accessToken)
                     resolve(response.accessToken)
                 }).catch(err=>{
@@ -115,10 +113,9 @@ export default class ClientSideDataServices{
     static getVerifiedUsername(){
         return new Promise((resolve,reject)=>{
             const refreshToken = localStorage.getItem("refreshToken");
-            if(refreshToken){
+            if(refreshToken){        
                 
                 axios.get(baseUrl+`token?token=${refreshToken}`).then(response=>{
-                    
                     localStorage.setItem("accessToken",response.data.accessToken)
                     resolve(jwt.decode(refreshToken).user)
                 }).catch(()=>{//reset user

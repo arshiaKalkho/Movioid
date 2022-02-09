@@ -12,14 +12,15 @@ const isUserAllowed = async (to,from,next)=>{//check auth middlewear
     next('/login')
   }else{
     dataServices.validateAccessToken()
-    .catch(()=>{
-      dataServices.getNewAccessToken()//if access token not valid
+    .catch(()=>{//if access token not valid
+      dataServices.getNewAccessToken()
       .catch(()=>{
-        next('/login')//failed redir to login
+        next('/login')//failed, redir to login
       })
     })
+    next()
   }
-  next()
+  
 
 }
 

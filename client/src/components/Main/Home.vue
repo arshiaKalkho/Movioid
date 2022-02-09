@@ -1,10 +1,10 @@
 <template>
   <div v-bind:class="{ loading: loading}" class="main" >
-    <div v-if="currentUser != ''" calss="welcome">Welcom {{currentUser}}</div>
+    <div calss="welcome" v-if="currentUser != ''" >Loged in as: <strong>{{currentUser}}</strong></div>
     <loading-spinner v-if="loading"></loading-spinner>
   
     <Search :toggleLoading="toggleLoading" :isUserLoggedIn="isUserLoggedIn"></Search>
-    <Movies :movieList="movies"></Movies>
+    <Movies v-if="movies.length != 0" :movieList="movies"></Movies>
   </div>
 
 </template>
@@ -41,7 +41,6 @@ export default {
     })
     
     DataServices.getLatestMovies().then((movies)=>{
-      console.log(movies)
       this.movies = movies;
       this.loading = false;
     }).catch(()=>{
@@ -51,6 +50,28 @@ export default {
     //this.loading=false;//temporary while debugging
     
   },
+  updated() {
+    if(localStorage.getItem('accessToken')&&localStorage.getItem('refreshToken')){
+      DataServices.validateAccessToken()//check for valid access token
+      .catch(()=>{//if not valid try to get new access token
+        DataServices.getVerifiedUsername()
+        .then((user)=>{//user is valid, new access token set
+          this.currentUser = user;
+        })
+        .catch(()=>{//refresh token is not valid reset to not loged in
+          this.isUserLoggedIn = false;
+          this.currentUser = "";
+        })
+      })
+    }
+    DataServices.getLatestMovies().then((movies)=>{//update topmovies
+      this.movies = movies;
+      this.loading = false;
+    }).catch(()=>{
+      this.err = "sorry service not available"
+      this.loading = false
+    })
+  },
   methods:{
     toggleLoading(){
       this.loading = !this.loading;
@@ -58,17 +79,14 @@ export default {
   }
 };
 </script>
-
 <sytle lang="css">
-
-
 .main {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 3rem;
   background-image: url(../../assets/movioid-main-page-background.png);
   background-position: center;
@@ -79,6 +97,8 @@ export default {
 }
 .welcome{
   padding-bottom: 2rem;
+
+  
 }
 .loading{
   opacity: 0.4;

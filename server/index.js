@@ -43,7 +43,7 @@ app.post('/api/register', async (req,res)=>{
     })
 })
 
-app.get('/api/token',async (req,res)=>{
+app.get('/api/token',async (req,res)=>{//get new access token with refresh token
     
     if(req.query.token){
         jwtServices.validateRefreshToken(req.query.token)
@@ -56,11 +56,11 @@ app.get('/api/token',async (req,res)=>{
         res.sendStatus(401)
     }
 })
-app.get('/api/accessToken',async (req,res)=>{
+app.get('/api/accessToken',async (req,res)=>{//validate access token
     if(req.query.token){
     jwtServices.validateAccessToken(req.query.token)
-    .then(reponse=>res.sendStatus(200))
-    .catch(err=>res.sendStatus(401))//this is just in case of vue routeguards, middle wears could be used
+    .then(()=>res.sendStatus(200))
+    .catch(()=>res.sendStatus(401))//this is just in case of vue routeguards, middle wers could be used
     }else{
         res.sendStatus(401)
     }
@@ -69,7 +69,7 @@ app.delete('/api/logout',async (req,res)=>{
     if(req.body.refreshToken){
         dataServices.deleteRefreshToken(req.body.refreshToken)
         .then(()=>{
-            res.sendStatus(204)
+            res.sendStatus(204) 
         })
         .catch(err=>{
             res.sendStatus(500)
