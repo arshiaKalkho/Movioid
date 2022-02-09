@@ -50,7 +50,7 @@ export default {
     //this.loading=false;//temporary while debugging
     
   },
-  updated() {
+  updated() {//runs on every update so if the access token is expired the home page will reflect
     if(localStorage.getItem('accessToken')&&localStorage.getItem('refreshToken')){
       DataServices.validateAccessToken()//check for valid access token
       .catch(()=>{//if not valid try to get new access token

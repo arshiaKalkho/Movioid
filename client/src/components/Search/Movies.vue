@@ -7,16 +7,19 @@
                       <h3 class="place-holder-text">Title: <span class="data">{{movie.title}}</span> </h3>
                       
                       <h3 class="place-holder-text">Rating: <span class="data">{{movie.rating}}</span> </h3>
-
-                      
                   </div>
                 
                   <div class="element-body">
-                      <span class="place-holder-text">Genre: </span> <span class="data">{{movie.genre}}</span>
-                      <br/>
-                      <span class="place-holder-text">Posted By: </span> <span class="data">{{movie.author}}</span>
-                    <span class="place-holder-text">Duration:</span> {{movie.duration}}<br/>
-                    <button v-on:click="sendIndexToParentToDelete(scene.index)" class="delete-button">delete</button>
+                      <div>
+                        <span class="place-holder-text">Genre: </span><span class="data">{{movie.genre}}</span>
+                        <br/>
+                        <span class="place-holder-text">Posted By: </span><span class="data">{{movie.author}}</span>
+                      </div>
+                      <div>
+                        <span class="place-holder-text">Duration:</span><span class="data"> {{movie.duration}}</span>
+                        <br/>
+                        <button v-on:click="redirToEdit(movie.title)" class="delete-button">edit</button>
+                      </div>
                   </div>
                 </div>
             </li>
@@ -38,6 +41,11 @@ export default {
   created() {
     this.numOfresults = this.movieList.length
   },
+  methods:{
+    redirToEdit(){
+      
+    }
+  }
   }
 
 </script>
@@ -49,8 +57,9 @@ export default {
   border:1px solid var(--color-text);
   border-radius: 3px;
   padding: 3px;
-  height:fit-content;
-  
+  min-height:40vh;
+  max-height: 45vh;
+  overflow-y: scroll;
   width:calc(70vw + 6.5rem);
 }
 .movie-list-element-container{
@@ -73,13 +82,24 @@ export default {
   padding:1rem;
   height: 2rem;
   overflow: hidden;
-  transition: 200ms ease-in-out;
+  transition: 300ms ease-in-out;
+}
+.element-body{
+  width: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: 300ms ease-in-out;
+  opacity: 0;
+}
+.movie-list-element:hover .element-body{
+  opacity: 1;
+  transition: 300ms ease-in-out;
 }
 .movie-list-element:hover{
-  
-  transition: 200ms ease-in-out;
+  transition: 300ms ease-in-out;
   overflow: visible;
-  height: fit-content;
+  height: 8rem;
 }
 .data{
   color: var(--color-accent);
