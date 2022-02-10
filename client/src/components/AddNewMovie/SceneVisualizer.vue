@@ -3,16 +3,15 @@
         <ul calss="scene-list">
             <li class="scene-list-element" v-for="(scene,index) in sceneList" :key="index">
                 <div class="element-header">
-                    <span class="place-holder-text">scene no:</span>
-                    {{scene.index}}<br/>
-                    <span class="place-holder-text">from:</span> {{scene.startTime}}
-                    <span class="place-holder-text">to:</span> {{scene.endTime}}
+                    <p><span class="place-holder-text small">scene no:</span>
+                    {{scene.index}}<br/></p>
+                    <p><span class="place-holder-text medium">Type:</span> {{scene.type}}</p>
+                    <p><span class="place-holder-text medium">from:</span> {{scene.startTime}}
+                    <span class="place-holder-text medium">to:</span> {{scene.endTime}}</p>
                     
                 </div>
                 
-                <div class="element-body">
-                <span class="place-holder-text">Type:</span> {{scene.type}}
-                </div>
+                
                 <button v-on:click="sendIndexToParentToDelete(scene.index)" class="delete-button">delete</button>
             </li>
         </ul>
@@ -40,17 +39,29 @@ export default {
 </script>
 <style lang="css" scoped>
     
-  
+    .small{
+        font-size: 0.8rem;
+    }
+    .medium{
+        font-size: 0.95rem;
+    }
     
     .scene-list-element{
         list-style-type: none;
         margin:5px;
         border:1px solid var(--color-text);
         border-radius: 3px;
-        padding: 3px;
+        padding: 0.5rem;
         height:6rem;
         width:fit-content;
 
+    }
+    .element-header{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        margin-bottom: 0;
     }
     .scene-list-visual{
         
@@ -62,13 +73,7 @@ export default {
         border:1px outset var(--color-text);
         border-radius: 5px;
     }
-    .element-header::after{
-        content: "";
-        height: 5px;
-        width:2rem;
-        background:red;
-        
-    }
+    
     .delete-button{
         color:red;
         background-color:var(--color-primary);
@@ -81,10 +86,6 @@ export default {
         color:var(--color-accent)
     }
     
-    .element-body{
-        margin-bottom: 5px;
-        
-    }
     .place-holder-text{
         color: var(--color-text);
         

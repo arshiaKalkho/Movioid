@@ -38,7 +38,11 @@ export default {
       numOfresults:0
     }
   },
-  created() {
+  created(){
+    this.numOfresults = this.movieList.length
+  },
+  updated() {
+    console.log("called")
     this.numOfresults = this.movieList.length
   },
   methods:{
