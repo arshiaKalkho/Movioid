@@ -34,7 +34,7 @@ export default {
     sendErrorToParent:Function,
     isUserLoggedIn:Boolean
   },
-  Data(){
+  data(){
     return{
       searchResult:[],
       searchQuery: '',
