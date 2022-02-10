@@ -191,7 +191,6 @@ async function checkJwtAuthHeader(req,res,next){
     const token = authHeader && authHeader.split(' ')[1] ;
     
     if(!token){
-        //console.log("no token provided")
         return res.sendStatus(401)
     }
     
