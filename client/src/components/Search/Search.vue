@@ -70,7 +70,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .search-box-container {
   padding-bottom: 2rem;
   padding-left: 5.5rem;

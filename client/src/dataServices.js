@@ -97,7 +97,7 @@ export default class ClientSideDataServices{
             const refreshToken = localStorage.getItem("refreshToken");
             if(refreshToken){
                 axios.get(baseUrl+`token?token=${refreshToken}`).then(response=>{
-                    localStorage.setItem("accessToken",response.accessToken)
+                    localStorage.setItem("accessToken",response.data.accessToken)
                     resolve(response.accessToken)
                 }).catch(err=>{
                     reject("invalid token",err)
@@ -115,6 +115,7 @@ export default class ClientSideDataServices{
                 
                 axios.get(baseUrl+`token?token=${refreshToken}`).then(response=>{
                     localStorage.setItem("accessToken",response.data.accessToken)
+                    
                     resolve(jwt.decode(refreshToken).user)
                 }).catch(()=>{//reset user
                     localStorage.removeItem("accessToken")
