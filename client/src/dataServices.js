@@ -21,11 +21,9 @@ export default class ClientSideDataServices{
                     })
         })
     }
-    static getMovieByTitle(title){
+    static getMoviesByTitle(title){
         return new Promise((resolve,reject)=>{
-                axios.get(baseUrl+"movie",{
-                    title:title
-                }).then(resMovies=>{
+                axios.get(baseUrl+`movie?title=${title}`).then(resMovies=>{
                     resolve(
                         resMovies.data.map(movie=>({
                             ...movie,

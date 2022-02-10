@@ -2,8 +2,8 @@
   <div v-bind:class="{ loading: loading}" class="main" >
     <div calss="welcome" v-if="currentUser != ''" >Loged in as: <strong>{{currentUser}}</strong></div>
     <loading-spinner v-if="loading"></loading-spinner>
-  
-    <Search :toggleLoading="toggleLoading" :isUserLoggedIn="isUserLoggedIn"></Search>
+    <p v-if="err != ''">{{err}}</p>
+    <Search :sendErrorToParent="setError" :sendMoviesToParent="setMovies" :toggleLoading="toggleLoading" :isUserLoggedIn="isUserLoggedIn"></Search>
     <Movies v-if="movies.length != 0" :movieList="movies"></Movies>
   </div>
 
@@ -47,7 +47,8 @@ export default {
       this.err = "sorry service not available"
       this.loading = false
     })
-    //this.loading=false;//temporary while debugging
+    
+    
     
   },
   updated() {//runs on every update so if the access token is expired the home page will reflect
@@ -58,23 +59,32 @@ export default {
         .then((user)=>{//user is valid, new access token set
           this.currentUser = user;
         })
-        .catch(()=>{//refresh token is not valid reset to not loged in
-          this.isUserLoggedIn = false;
-          this.currentUser = "";
+        .catch(()=>{//refresh token is not valid reset and logout
+          DataServices.logOutUser().then(()=>{
+            this.isUserLoggedIn = false;
+            this.currentUser = "";
+          }).catch(()=>{
+            this.err = "credentials expired please reload and login"
+          })
         })
       })
     }
-    DataServices.getLatestMovies().then((movies)=>{//update topmovies
-      this.movies = movies;
-      this.loading = false;
-    }).catch(()=>{
-      this.err = "sorry service not available"
-      this.loading = false
-    })
+   
   },
   methods:{
     toggleLoading(){
       this.loading = !this.loading;
+    },
+    setError(err){
+      this.err = err;
+    },
+    setMovies(movies){
+      if(movies.length === 0)
+        this.err ="no result found"
+      else
+        this.err =""
+      this.movies = movies;
+      
     }
   }
 };

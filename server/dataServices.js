@@ -169,7 +169,7 @@ module.exports = function(connectionString){
                 })
             })
         },
-        getMovieBytitle: function(_title){
+        getMoviesBytitle: function(_title){
             return new Promise((resolve,reject)=>{
                 movies.find({"title":{$regex: _title}}).sort({_id:-1}).then(MovieList =>{
                     resolve(MovieList)

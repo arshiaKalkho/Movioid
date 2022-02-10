@@ -3,8 +3,8 @@
   
   <div class="search-box-container">
   
-    <input class="search-box" placeholder="Search for movies and tv shows" />
-    <button class="search-button button">Search</button>
+    <input class="search-box" v-model="searchQuery" placeholder="Search for movies and tv shows" />
+    <button class="search-button button"  v-on:click="getMoviesSendToParent">Search</button>
     <div class="search-buttons">
       <router-link to="/login" v-if="!isUserLoggedIn">
         <button class="LoginRegister-button button" >
@@ -30,13 +30,14 @@ export default {
   name: "Search",
   props:{
     toggleLoading:Function,
+    sendMoviesToParent:Function,
+    sendErrorToParent:Function,
     isUserLoggedIn:Boolean
   },
   Data(){
     return{
-      latestMovies:[],
+      searchResult:[],
       searchQuery: '',
-      error: '',
       
     }
   },
@@ -48,10 +49,23 @@ export default {
         location.reload();
       }).catch(()=>{
         this.toggleLoading();
-        this.error = "something went wrong"
+        this.sendErrorToParent("something went wrong")
+      })
+    },
+    async getMoviesSendToParent(){
+      this.toggleLoading()
+      this.searchResult = []
+      DataServices.getMoviesByTitle(this.searchQuery)
+      .then(movies=>{
+        this.sendMoviesToParent(movies)
+        this.toggleLoading()
+      })
+      .catch(()=>{
+        this.sendErrorToParent("something went wrong")
+        this.toggleLoading()
       })
     }
-  }
+    }
   
 };
 </script>

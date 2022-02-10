@@ -120,7 +120,7 @@ app.post('/api/login',async (req,res)=>{//post because of axios bug on front end
     }
 })
 app.get('/api/movie', async (req,res)=>{
-    dataServices.getMovieBytitle(req.body.title).then((data)=>{
+    dataServices.getMoviesBytitle(req.query.title).then((data)=>{
         res.send(data).status(200)
     }).catch(err=>{
         res.send(err).status(500)

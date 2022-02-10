@@ -297,8 +297,8 @@ export default {
   margin-bottom: 1rem;
 }
 .scene-list{
-  width:fill;
-  height:fill;
+  width:stretch;
+  height:stretch;
   background:red;
 }
 .error{
