@@ -16,13 +16,15 @@
         
         <div class="addMovie-form-left">
           <h3 class="primary-text">Info</h3>
-          
           <label for="input-title">Title: </label>
           <input :disabled="disableMovieInputs" id="input-title" class="input" v-model="title">
+          
           
           <label for="input-title">Movie Duration: (minutes) </label>
           <input :disabled="disableMovieInputs" id="input-title" class="input" min="0" type="number" v-model="duration">
           
+          <label for="input-title">Image Link: </label>
+          <input :disabled="disableMovieInputs" id="input-title" class="input" v-model="image">
 
           <label for="input-genre">Genre: </label>
           <select :disabled="disableMovieInputs" id="input-genre" class="input drop-down" v-model="genre">
@@ -97,6 +99,7 @@ export default {
       disableMovieInputs:false,
       disableSceneInputs:true,
       sceneToDelete:null,
+      image:"",
       genre:"",
       title: "",
       scenes:[],
@@ -192,6 +195,7 @@ export default {
     ,async submitMovie(){
       this.calculateRating();
       DataServices.addNewMovie({
+        image:this.image,
         title:this.title,
         genre:this.genre,
         duration:this.duration,

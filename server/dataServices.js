@@ -20,6 +20,9 @@ let scene = new mongoose.Schema({
 })
 
 let movieSchema = new mongoose.Schema({
+    image:{
+        type: String
+    },
     genre:{
         type: String,
         enum : [

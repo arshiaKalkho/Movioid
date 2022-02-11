@@ -129,9 +129,10 @@ app.get('/api/movie', async (req,res)=>{
 
 })
 app.post('/api/movie',checkJwtAuthHeader, async (req,res)=>{//for now no error checking
-    console.log(req.body)
+    
     try{
     const temp = {
+        image: req.body.movie.image , 
         genre: req.body.movie.genre ,
         title: req.body.movie.title ,
         author: "root" ,

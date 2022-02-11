@@ -16,8 +16,8 @@ module.exports = function(DBconnection){
                             (err,userOBJ)=>{
                             if(err){
                                 DBconnection.deleteRefreshToken(_token)
-                                .catch(err=>{
-                                    //console.log(err)
+                                .catch(()=>{
+                                   
                                 })
                                 reject("refresh token expired")
                             }else if(userOBJ){

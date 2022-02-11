@@ -13,12 +13,17 @@
                       <div>
                         <span class="place-holder-text">Genre: </span><span class="data">{{movie.genre}}</span>
                         <br/>
-                        <span class="place-holder-text">Posted By: </span><span class="data">{{movie.author}}</span>
-                      </div>
-                      <div>
+                        
                         <span class="place-holder-text">Duration:</span><span class="data"> {{movie.duration}}</span>
                         <br/>
                         <button v-on:click="redirToEdit(movie.title)" class="delete-button">edit</button>
+                      </div>
+                      <RatingVisualizer :rating="movie.rating" />
+                      <div>
+                        <img :src="movie.image" alt="image not available" class="movie-image">
+                        <br/>
+                        <span class="place-holder-text">Posted By: </span><span class="data">{{movie.author}}</span>
+                        
                       </div>
                   </div>
                 </div>
@@ -26,12 +31,15 @@
         </ul>
 </template>
 <script>
-
+import RatingVisualizer from "./RatingVisualizer.vue"
 
 export default {
   name:"movies",
   props:{
     movieList:Array
+  },
+  components:{
+    RatingVisualizer
   },
   data() {
     return {
@@ -42,7 +50,7 @@ export default {
     this.numOfresults = this.movieList.length
   },
   updated() {
-    console.log("called")
+    
     this.numOfresults = this.movieList.length
   },
   methods:{
@@ -77,7 +85,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 .movie-list-element{
   border-bottom: 1px solid var(--color-text);
@@ -87,6 +95,10 @@ export default {
   height: 2rem;
   overflow: hidden;
   transition: 300ms ease-in-out;
+}
+.movie-image{
+  width:3.5rem;
+  height: 4.5rem;
 }
 .element-body{
   width: stretch;
