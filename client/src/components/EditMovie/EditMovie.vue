@@ -3,7 +3,7 @@
   
     <div class="addMovie-header">
       <h3>edit movie</h3>
-      <p class="secondary-text">the main part of this form is the events, each event need to have a score which is explained below and must have a time stamp within the movie duration time.<br>All Movies will be manually reviewed before uploading so please NO SPOILERS...</p>
+      
     </div>
     
     
@@ -16,17 +16,17 @@
         <div class="addMovie-form-left">
           <h3 class="primary-text">Info</h3>
           <label for="input-title">Title: </label>
-          <input :disabled="disableMovieInputs" id="input-title" class="input" v-model="title">
+          <input id="input-title" class="input" v-model="title">
           
           
           <label for="input-title">Movie Duration: (minutes) </label>
-          <input :disabled="disableMovieInputs" id="input-title" class="input" min="0" type="number" v-model="duration">
+          <input  id="input-title" class="input" min="0" type="number" v-model="duration">
           
           <label for="input-title">Image Link: </label>
-          <input :disabled="disableMovieInputs" id="input-title" class="input" v-model="image">
+          <input  id="input-title" class="input" v-model="image">
 
           <label for="input-genre">Genre: </label>
-          <select :disabled="disableMovieInputs" id="input-genre" class="input drop-down" v-model="genre">
+          <select  id="input-genre" class="input drop-down" v-model="genre">
             <option v-bind:genre="'Action' ">Action</option>
             <option v-bind:genre="'Comedy' ">Comedy</option>
             <option v-bind:genre="'Drama' ">Drama</option>
@@ -39,9 +39,8 @@
           </select>
           
             <span class="error">{{movieErr}}</span>
-            <button v-on:click="confirmMovieInfo" class="add-scence" :disabled="disableMovieInputs">Confirm Movie Info</button>
+            <button v-on:click="confirmMovieInfo" class="add-scence" >Confirm Movie Info</button>
           
-            <button v-on:click = "reset" class="delete-scence"> Start Over Completely</button>
 
           
             
@@ -54,26 +53,26 @@
             <h3 class="primary-text">Add Scenes</h3>
             <div class="movie-info-warn" v-if="disableSceneInputs">Please confirm movie info</div>
             <label for="input-startTime">Scene start time </label>
-            <input :disabled="disableSceneInputs" id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
+            <input  id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
             
             <label for="input-endTime">Scene end time </label>
-            <input :disabled="disableSceneInputs" id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
+            <input id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
             
             
 
             <label for="input-intensity">Scene type</label>
-            <select :disabled="disableSceneInputs" id="input-intensity" class="input drop-down" v-model="tempType">
+            <select  id="input-intensity" class="input drop-down" v-model="tempType">
               <option v-bind:value="{ genre: 'awkward' }">awkward</option>
               <option v-bind:value="{ genre: 'kiss' }">kiss</option>
               <option v-bind:value="{ genre: 'nudity' }">nudity</option>
             </select>
             <span class="error">{{sceneErr}}</span>
             
-            <button :disabled="disableSceneInputs" v-on:click="addScene" class="add-scence"> Add Scene</button>
+            <button  v-on:click="addScene" class="add-scence"> Add Scene</button>
             
-            <button :disabled="disableSceneInputs" v-on:click="sortScenesByStartTime" class="sort-scence">Sort Scences</button>
+            <button  v-on:click="sortScenesByStartTime" class="sort-scence">Sort Scences</button>
             
-            <button :disabled="disableSceneInputs" v-on:click="submitMovie" class="add-scence"> Submit Movie</button>
+            <button  v-on:click="submitMovie" class="add-scence"> Submit Changes</button>
             
           </div>
           
@@ -91,15 +90,13 @@ import DataServices from '../../dataServices'
 export default {
   name: "EditMovie",
   props:{
-    id:{required:true}
+    refTitle:{required:true}
   },
   components:{
     SceneVisualizer
   }
   ,data(){
     return{
-      disableMovieInputs:false,
-      disableSceneInputs:true,
       sceneToDelete:null,
       image:"",
       genre:"",
@@ -116,6 +113,19 @@ export default {
     }
   },
   methods:{
+    created() {
+      DataServices.getMoviesByTitle(this.refTitle)
+      .then((movie)=>{
+        this.image = movie.image;
+        this.genre = movie.genre;
+        this.title = movie.title;
+        this.scenes = movie.scenes;
+        this.duration = movie.duration;
+        this.rating = movie.rating;
+      }).catch(()=>{
+        this.movieErr = "error geting movie"
+      })
+    },
     addScene(){
       if(this.tempStartTime === 0 || this.tempEndTime === 0 || this.tempType === ""){
         this.sceneErr= "Please Make sure all the start time, end time and scence types are filled"
@@ -149,8 +159,6 @@ export default {
         this.movieErr = "Please choose a genre"
       }
       else{
-        this.disableMovieInputs=true;
-        this.disableSceneInputs=false;
         this.movieErr = "";
       }
       
@@ -179,21 +187,7 @@ export default {
       if(tempindex>=0)
         this.scenes.splice(tempindex,1)
     }
-    ,
-    reset(){
-      this.disableMovieInputs=false;
-      this.disableSceneInputs=true
-      this.sceneToDelete=null
-      this.genre="";
-      this.title="";
-      this.scenes = [];
-      this.duration = 0;
-      this.tempStartTime = 0;
-      this.tempEndTime = 0;
-      this.rating = 0;
-      this.tempType = "";
-      this.sceneErr = "";
-    }
+  
     ,async submitMovie(){
       this.calculateRating();
       DataServices.addNewMovie({
