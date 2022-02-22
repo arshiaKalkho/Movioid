@@ -165,7 +165,8 @@
   </div>
   <router-view/>
   <div class="footer">
-    footer stuff here
+    <span>2022 &#169; Arshia Kalkhorani</span>
+    <a href="http://www.arshiakalkhorani.com">arshiaKalkhorani.com</a>
   </div>
   
 </template>
@@ -252,7 +253,15 @@ body {
   margin-top: 2rem;
   width: 100%;
   height:10vh;
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   background-color: var(--color-HeaderFooter);
 }
+.footer>a{
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--color-accent);
+  }
 </style>
