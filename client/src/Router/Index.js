@@ -37,8 +37,9 @@ const routes = [
     component: AddMovie
   },
   {
-    path: '/editMovie',
+    path: '/editMovie/:id',
     name: 'EditMovie',
+    props: true,
     beforeEnter: isUserAllowed,
     component: EditMovie
   },
