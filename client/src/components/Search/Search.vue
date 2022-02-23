@@ -55,7 +55,7 @@ export default {
     async getMoviesSendToParent(){
       this.toggleLoading()
       this.searchResult = []
-      DataServices.getMoviesByTitle(this.searchQuery)
+      DataServices.getMoviesByTitle(this.searchQuery.toLowerCase())
       .then(movies=>{
         this.sendMoviesToParent(movies)
         this.toggleLoading()

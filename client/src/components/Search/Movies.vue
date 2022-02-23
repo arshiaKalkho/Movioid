@@ -4,7 +4,7 @@
             <li class="movie-list-element" v-for="(movie,index) in movieList" :key="index">
                 <div class="movie-list-element-container">
                   <div class="element-header">
-                      <h3 class="place-holder-text">Title: <span class="data">{{movie.title}}</span> </h3>
+                      <h3 class="place-holder-text">Title: <span class="data">{{movie.title[0].toUpperCase() + movie.title.substring(1)}}</span> </h3>
                       
                       <h3 class="place-holder-text">Rating: <span class="data">{{movie.rating}}</span> </h3>
                   </div>

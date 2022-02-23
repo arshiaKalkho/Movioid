@@ -181,7 +181,7 @@ module.exports = function(connectionString){
                 })
             })
         },
-        getRefreshToken(_token){
+        getRefreshToken: function(_token){
             return new Promise((resolve,reject)=>{
                 refreshTokens.findOne({"token":_token}).then(token =>{
                     resolve(token)

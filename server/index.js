@@ -121,6 +121,7 @@ app.post('/api/login',async (req,res)=>{//post because of axios bug on front end
 })
 app.get('/api/movie', async (req,res)=>{
     dataServices.getMoviesBytitle(req.query.title).then((data)=>{
+        
         res.send(data).status(200)
     }).catch(err=>{
         res.send(err).status(500)
@@ -131,19 +132,19 @@ app.get('/api/movie', async (req,res)=>{
 app.post('/api/movie',checkJwtAuthHeader, async (req,res)=>{//for now no error checking
     
     try{
-    const temp = {
-        image: req.body.movie.image , 
-        genre: req.body.movie.genre ,
-        title: req.body.movie.title ,
-        author: "root" ,
-        scenes: req.body.movie.scenes ,
-        rating: req.body.movie.rating ,
-        comments: [] ,
-        duration: req.body.movie.duration
-    }
-    dataServices.createMovie(temp)
-    .then(result=>res.sendStatus(201))
-    .catch(err=>res.sendStatus(409))
+        const temp = {
+            image: req.body.movie.image , 
+            genre: req.body.movie.genre ,
+            title: req.body.movie.title.toLowerCase() ,
+            author: "root" ,
+            scenes: req.body.movie.scenes ,
+            rating: req.body.movie.rating ,
+            comments: [] ,
+            duration: req.body.movie.duration
+        }
+        dataServices.createMovie(temp)
+        .then(result=>res.sendStatus(201))
+        .catch(err=>res.sendStatus(409))
     }catch(err){
         res.sendStatus(422)
     }
