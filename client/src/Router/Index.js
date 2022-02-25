@@ -4,6 +4,7 @@ import AddMovie from '../components/AddNewMovie/AddMovie'
 import EditMovie from '../components/EditMovie/EditMovie'
 import LoginRegister from '../components/LoginRegister/LoginRegister'
 import dataServices from '../dataServices'
+import notFound from '../components/NotFound/NotFound'
 
 
 const isUserAllowed = async (to,from,next)=>{//check auth middlewear
@@ -47,6 +48,11 @@ const routes = [
     path: '/login',
     name: 'LoginRegister',
     component: LoginRegister
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: notFound
   }
 ]
 
