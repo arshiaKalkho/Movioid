@@ -9,18 +9,18 @@
             <span class="error">{{err}}</span>
             <div class="login-box">
                 <label for="username">Username: </label>
-                <input id="username" type="text" class="input" v-model="userName">
+                <input id="username" type="text" class="input" v-model="userName" v-on:keyup.enter="login">
                 <label for="password" >Password: </label>
-                <input id="password" type="password" class="input" v-model="password">
+                <input id="password" type="password" class="input" v-model="password" v-on:keyup.enter="login">
                 <button v-on:click="login" class="login-button ">Login</button>
             </div>
             <div class="register-box">
                 <label for="retype-password">confirm password
                     <span class="subText">(for registeration only)</span>
                 </label>
-                <input id="retype-password" type="password" class="input"  v-model="confirmPassword">
+                <input id="retype-password" type="password" class="input"  v-model="confirmPassword" v-on:keyup.enter="register">
                 <label for="password">Email: </label>
-                <input id="email" type="text" class="input" v-model="email">
+                <input id="email" type="text" class="input" v-model="email" v-on:keyup.enter="register">
             </div>
             <div class="buttons-contianer">
                 <button v-on:click="register" class="register-button">Register</button>

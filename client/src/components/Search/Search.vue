@@ -3,7 +3,7 @@
   
   <div class="search-box-container">
   
-    <input class="search-box" v-model="searchQuery" placeholder="Search for movies and tv shows" />
+    <input class="search-box" v-model="searchQuery"  v-on:keyup.enter="getMoviesSendToParent" placeholder="Search for movies and tv shows" />
     <button class="search-button button"  v-on:click="getMoviesSendToParent">Search</button>
     <div class="search-buttons">
       <router-link to="/login" v-if="!isUserLoggedIn">
