@@ -122,7 +122,7 @@ export default {
         this.duration = movie.duration;
         this.rating = movie.rating;
       }).catch(()=>{
-        this.movieErr = "error geting movie"
+        this.movieErr = "error geting movie make sure the title exists by searching in home page"
       })
     },
   methods:{
