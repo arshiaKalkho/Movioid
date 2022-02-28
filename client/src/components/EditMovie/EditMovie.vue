@@ -110,10 +110,9 @@ export default {
       sceneErr: "",
       movieErr: "",
       successMassage:""
-    }
-  },
-  methods:{
-    created() {
+      }
+    },
+    created(){
       DataServices.getMoviesByTitle(this.refTitle)
       .then((movie)=>{
         this.image = movie.image;
@@ -126,6 +125,7 @@ export default {
         this.movieErr = "error geting movie"
       })
     },
+  methods:{
     addScene(){
       if(this.tempStartTime === 0 || this.tempEndTime === 0 || this.tempType === ""){
         this.sceneErr= "Please Make sure all the start time, end time and scence types are filled"
