@@ -131,7 +131,8 @@ export default {
 .loading{
   opacity: 0.4;
 }
-@media (orientation: landscape) {
+@media only screen and (orientation: landscape) and (max-width:950px) 
+ {
     .main{
       height: 200vh;
       
