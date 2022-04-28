@@ -92,7 +92,7 @@ export default {
   border-top: 1px solid var(--color-text);
   margin-bottom: 0.5rem;
   padding:1rem;
-  height: 2rem;
+  height: 2.5rem;
   overflow: hidden;
   transition: 300ms ease-in-out;
 }
