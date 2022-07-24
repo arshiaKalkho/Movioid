@@ -56,6 +56,7 @@ app.get('/api/token',async (req,res)=>{//get new access token with refresh token
         res.sendStatus(401)
     }
 })
+
 app.get('/api/accessToken',async (req,res)=>{//validate access token
     if(req.query.token){
     jwtServices.validateAccessToken(req.query.token)
@@ -120,6 +121,7 @@ app.post('/api/login',async (req,res)=>{//post because of axios bug on front end
     }
 })
 app.get('/api/movie', async (req,res)=>{
+    
     dataServices.getMoviesBytitle(req.query.title).then((data)=>{
         
         res.send(data).status(200)

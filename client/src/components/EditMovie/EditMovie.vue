@@ -113,8 +113,10 @@ export default {
       }
     },
     created(){
-      DataServices.getMoviesByTitle(this.refTitle)
+    
+      DataServices.getMoviesByTitle(this.refTitle.toLowerCase())
       .then((movie)=>{
+        console.log(movie)
         this.image = movie.image;
         this.genre = movie.genre;
         this.title = movie.title;
