@@ -4,7 +4,7 @@
   
     <div class="addMovie-header">
       <h3>Add New Movie</h3>
-      <p class="secondary-text">the main part of this form is the events, each event need to have a score which is explained below and must have a time stamp within the movie duration time.<br>All Movies will be manually reviewed before uploading so please NO SPOILERS...</p>
+      <p class="secondary-text addMovie-desc">Use this area to add your movie, if you see something that needs to be removed or just want to contact me use <a href="https://github.com/arshiaKalkho/Movioid">Github</a> there are multiple ways to access me there. again this is a work in progress and will be improved in the future.</p>
     </div>
     
     
@@ -55,10 +55,10 @@
             <h3 class="primary-text">Add Scenes</h3>
             <div class="movie-info-warn" v-if="disableSceneInputs">Please confirm movie info</div>
             <label for="input-startTime">Scene start time </label>
-            <input :disabled="disableSceneInputs" id="input-startTime" class="input" min="0" type="number" v-model="tempStartTime">
+            <input :disabled="disableSceneInputs" id="input-startTime" class="input" min="1" type="number" v-model="tempStartTime">
             
             <label for="input-endTime">Scene end time </label>
-            <input :disabled="disableSceneInputs" id="input-endTime" class="input" min="0" type="number" v-model="tempEndTime">
+            <input :disabled="disableSceneInputs" id="input-endTime"   class="input" min="1" type="number" v-model="tempEndTime">
             
             
 
@@ -104,8 +104,8 @@ export default {
       title: "",
       scenes:[],
       duration:0,
-      tempStartTime:0,
-      tempEndTime:0,
+      tempStartTime:1,
+      tempEndTime:1,
       rating: 0,
       tempType:"",
       sceneErr: "",
@@ -228,6 +228,13 @@ export default {
 };
 </script>
 <style lang="css">
+  .addMovie-desc{
+    padding: 1rem;
+  }
+  .addMovie-desc>a{
+    color: aquamarine;
+    text-decoration: none;
+  }
   .addMovie-header{
   margin:1rem;
   width:85%;

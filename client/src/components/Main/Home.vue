@@ -1,6 +1,14 @@
 <template>
   <div v-bind:class="{ loading: loading}" class="main" >
-    <div calss="welcome" v-if="currentUser != ''" >Loged in as: <strong>{{currentUser}}</strong></div>
+    <div class="welcome" v-if="currentUser != ''" >Loged in as: <strong>{{currentUser}}</strong></div>
+    <div class="welcome" v-if="currentUser === ''" >
+      Movioid is a <span>Vue</span> project in the making, more functionality like editing movies and 
+      better rating systems with more information will be coming soon. This app uses 
+      full refresh and access token system with <span>jwt</span> and <span>mongoDB</span> for the database. The
+      source for this <span>MEVN</span> stack is available at my <a href="https://github.com/arshiaKalkho/Movioid">Github</a>.
+
+    </div>
+    
     <loading-spinner v-if="loading"></loading-spinner>
     <p v-if="err != ''">{{err}}</p>
     <Search :sendErrorToParent="setError" :sendMoviesToParent="setMovies" :toggleLoading="toggleLoading" :isUserLoggedIn="isUserLoggedIn"></Search>
@@ -106,11 +114,28 @@ export default {
   padding-bottom: 2rem;
 }
 .welcome{
-  padding-bottom: 2rem;
-
+  max-width: 80%;
+  padding: 1rem;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-text);
+  border-radius: 5px;
   
+}
+.welcome>span{
+  color: aliceblue;
+}
+.welcome>a{
+  text-decoration: none;
+  color: aquamarine;
 }
 .loading{
   opacity: 0.4;
+}
+@media only screen and (orientation: landscape) and (max-width:950px) 
+ {
+    .main{
+      height: 200vh;
+      
+    }
 }
 </sytle>
